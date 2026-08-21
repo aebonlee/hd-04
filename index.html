@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>생성형 AI 업무자동화 전문가과정 — 저장소 총정리</title>
+<meta name="description" content="현대건설 생성형 AI 업무자동화 전문가과정에서 사용된 실습 저장소(hd-01~08)와 수강생 프로젝트(hd-project01~07) 안내 페이지">
+<style>
+  :root {
+    --page:#f7f8f7; --surface:#fdfdfc; --ink:#101210; --ink2:#4c514c; --muted:#878d87;
+    --border:rgba(16,18,16,.10); --grid:#e3e5e2;
+    --hd:#0a7d3b; --hd-dark:#075c2b; --hd-soft:#e7f3ec;
+    --blue:#2a78d6; --blue-soft:#e8f0fb;
+  }
+  * { box-sizing:border-box; }
+  html,body { margin:0; padding:0; }
+  body { background:var(--page); color:var(--ink);
+         font-family:"Pretendard","Malgun Gothic",system-ui,-apple-system,"Segoe UI",sans-serif;
+         line-height:1.6; font-size:15px; }
+  a { color:inherit; }
+  .wrap { max-width:1120px; margin:0 auto; padding:0 24px; }
+
+  /* Hero */
+  header.hero { background:linear-gradient(160deg,#0b3d22 0%,#0a7d3b 70%,#149a4e 100%); color:#fff; }
+  header.hero .wrap { padding:64px 24px 56px; }
+  .hero .eyebrow { font-size:13px; font-weight:700; letter-spacing:.12em; opacity:.85; text-transform:uppercase; }
+  .hero h1 { font-size:clamp(26px,4.5vw,40px); line-height:1.25; margin:10px 0 14px; font-weight:800; }
+  .hero p.lede { max-width:720px; font-size:16px; opacity:.92; margin:0 0 26px; }
+  .hero .stats { display:flex; gap:14px; flex-wrap:wrap; }
+  .hero .stat { background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.22);
+                border-radius:12px; padding:12px 20px; min-width:130px; }
+  .hero .stat b { display:block; font-size:24px; font-weight:800; }
+  .hero .stat span { font-size:12px; opacity:.85; }
+
+  main { padding:44px 0 30px; }
+  section { margin-bottom:52px; }
+  h2 { font-size:21px; margin:0 0 6px; font-weight:800; }
+  .sec-sub { color:var(--ink2); margin:0 0 22px; font-size:14px; }
+  h2 .chip { display:inline-block; font-size:11px; font-weight:700; vertical-align:3px;
+             border-radius:99px; padding:2px 10px; margin-left:10px; }
+  .chip.green { background:var(--hd-soft); color:var(--hd-dark); }
+  .chip.blue { background:var(--blue-soft); color:#1c5cab; }
+
+  /* 일정 */
+  .timeline { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
+  .tcard { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 20px; }
+  .tcard .day { font-size:12px; font-weight:800; color:var(--hd-dark); letter-spacing:.06em; }
+  .tcard h3 { font-size:15px; margin:6px 0 8px; }
+  .tcard p { margin:0; color:var(--ink2); font-size:13px; }
+
+  /* 카드 그리드 */
+  .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:14px;
+          padding:20px 22px; display:flex; flex-direction:column; gap:8px;
+          transition:box-shadow .15s ease, transform .15s ease; }
+  .card:hover { box-shadow:0 6px 20px rgba(16,18,16,.08); transform:translateY(-2px); }
+  .card .no { font-size:12px; font-weight:800; color:var(--muted); letter-spacing:.08em; }
+  .card .no .owner { color:var(--hd-dark); }
+  .card h3 { font-size:16px; margin:0; font-weight:750; }
+  .card p.desc { margin:0; color:var(--ink2); font-size:13.5px; flex:1; }
+  .tags { display:flex; gap:6px; flex-wrap:wrap; margin-top:2px; }
+  .tag { font-size:11px; font-weight:600; color:var(--ink2); background:#f0f1ef;
+         border-radius:6px; padding:2px 8px; }
+  .links { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  .btn { font-size:12.5px; font-weight:700; text-decoration:none; border-radius:8px;
+         padding:7px 13px; border:1px solid var(--border); background:#fff; color:var(--ink); }
+  .btn:hover { border-color:#b9bdb9; }
+  .btn.primary { background:var(--hd); border-color:var(--hd); color:#fff; }
+  .btn.primary:hover { background:var(--hd-dark); }
+  .btn.blue { background:var(--blue); border-color:var(--blue); color:#fff; }
+  .btn.blue:hover { background:#1c5cab; }
+  .card.this { border:1.5px solid var(--hd); background:var(--hd-soft); }
+
+  .note { background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--hd);
+          border-radius:10px; padding:14px 18px; color:var(--ink2); font-size:13.5px; margin-top:20px; }
+
+  footer { border-top:1px solid var(--grid); padding:26px 0 40px; color:var(--muted); font-size:13px; }
+  footer .wrap { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">HD 생성형 AI 업무자동화 전문가과정 · 1차수</div>
+    <h1>실습 &amp; 프로젝트 저장소 총정리</h1>
+    <p class="lede">현대건설 생성형 AI 업무자동화 전문가과정에서 Claude Code로 진행한
+      4일간의 실습 저장소(hd-01~08)와, 수강생 기획서를 기반으로 개발한
+      실전 프로젝트(hd-project01~07)를 한 페이지에 정리했습니다.</p>
+    <div class="stats">
+      <div class="stat"><b>7</b><span>실습 저장소</span></div>
+      <div class="stat"><b>7</b><span>수강생 프로젝트</span></div>
+      <div class="stat"><b>4+2</b><span>실습 4일 + 프로젝트 2일</span></div>
+      <div class="stat"><b>100%</b><span>GitHub Pages 배포</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <!-- 교육 구성 -->
+    <section>
+      <h2>교육 구성</h2>
+      <p class="sec-sub">기초 실습에서 시작해 각자의 실무 문제를 해결하는 프로젝트로 마무리하는 6일 여정입니다.</p>
+      <div class="timeline">
+        <div class="tcard"><div class="day">STEP 1 · 실습</div>
+          <h3>정적 웹페이지 만들기</h3>
+          <p>HTML/CSS로 완성도 있는 랜딩 페이지를 만들고 GitHub Pages로 배포합니다. (hd-01, hd-02)</p></div>
+        <div class="tcard"><div class="day">STEP 2 · 실습</div>
+          <h3>데이터 연동 — Supabase</h3>
+          <p>서버 없이 회원가입·로그인이 되는 웹사이트를 만들며 DB 연동을 익힙니다. (hd-03, hd-08)</p></div>
+        <div class="tcard"><div class="day">STEP 3 · 실습</div>
+          <h3>실전 페이지 &amp; 대시보드</h3>
+          <p>실제 서비스 수준의 페이지 클론과 협업 대시보드를 제작합니다. (hd-05, hd-06, hd-07)</p></div>
+        <div class="tcard"><div class="day">STEP 4 · 프로젝트 (2일)</div>
+          <h3>수강생 프로젝트 개발</h3>
+          <p>각자 작성한 프로젝트 기획서를 Claude Code 작업 지시서로 변환해 실전 도구 7종을 완성합니다.
+             실습을 더 다지고 싶은 수강생을 위한 복습 자료도 함께 제공합니다.</p></div>
+      </div>
+    </section>
+
+    <!-- 실습 저장소 -->
+    <section>
+      <h2>실습 저장소 <span class="chip green">hd-01 ~ hd-08</span></h2>
+      <p class="sec-sub">교육 중 함께 만든 실습 결과물입니다. 각 저장소의 코드를 열어 구조를 복습할 수 있습니다.</p>
+      <div class="cards">
+        <div class="card">
+          <div class="no">HD-01</div>
+          <h3>부자인테리어 — 랜딩 페이지</h3>
+          <p class="desc">"공간의 가치를 디자인합니다" — 첫 실습으로 만든 인테리어 회사 소개 정적 페이지. 단일 HTML로 완성한 반응형 랜딩.</p>
+          <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">랜딩 페이지</span></div>
+          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-01/">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-01">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-02</div>
+          <h3>코드월드 — 학습 플랫폼</h3>
+          <p class="desc">프로그래밍 학습 플랫폼 소개 사이트. HTML·CSS·JS 파일을 분리해 구조화하는 방법을 익힌 실습.</p>
+          <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
+          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-02/">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-02">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-03</div>
+          <h3>회원가입 만들기 실습</h3>
+          <p class="desc">서버 없이 HTML 하나와 Supabase만으로 회원가입·로그인이 되는 웹사이트를 만드는 단계별 실습. 상세한 따라 하기 문서 포함.</p>
+          <div class="tags"><span class="tag">Supabase</span><span class="tag">인증</span><span class="tag">DB 연동</span></div>
+          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-03/">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-03">저장소</a></div>
+        </div>
+        <div class="card this">
+          <div class="no">HD-04 · 이 페이지</div>
+          <h3>교육과정 총정리</h3>
+          <p class="desc">이번 과정에서 사용한 모든 실습·프로젝트 저장소를 소개하는 안내 페이지입니다. 지금 보고 계신 곳!</p>
+          <div class="tags"><span class="tag">정적 페이지</span><span class="tag">과정 안내</span></div>
+          <div class="links"><a class="btn" href="https://github.com/aebonlee/hd-04">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-05</div>
+          <h3>한결라이프 — 페이지 클론</h3>
+          <p class="desc">실제 서비스 웹사이트를 보고 그대로 재현해 보는 클론 실습. 이미지 자산 관리와 레이아웃 감각을 기른 실습.</p>
+          <div class="tags"><span class="tag">클론 코딩</span><span class="tag">레이아웃</span></div>
+          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-05/">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-05">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-06</div>
+          <h3>HD 프로젝트 협업 대시보드</h3>
+          <p class="desc">진행 현황·주요 지표·작업 흐름을 한눈에 보여주는 대시보드형 웹 서비스 실습.</p>
+          <div class="tags"><span class="tag">대시보드</span><span class="tag">UI 설계</span></div>
+          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-06/">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-06">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-07</div>
+          <h3>PROJECT BLUE — 사내 프로젝트 허브</h3>
+          <p class="desc">"함께 만들고, 함께 나누는" 사내 프로젝트 허브 콘셉트 페이지 실습.</p>
+          <div class="tags"><span class="tag">HTML</span><span class="tag">사내 포털</span></div>
+          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-07/">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-07">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-08</div>
+          <h3>회원가입 연습 (복습)</h3>
+          <p class="desc">hd-03에서 배운 Supabase 회원가입 구조를 스스로 다시 만들어 보는 복습 실습.</p>
+          <div class="tags"><span class="tag">Supabase</span><span class="tag">복습</span></div>
+          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-08/">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-08">저장소</a></div>
+        </div>
+      </div>
+      <div class="note">실습 저장소의 "페이지 열기"는 해당 저장소의 GitHub Pages 설정이 켜져 있을 때 동작합니다.
+        열리지 않는 저장소는 Settings → Pages에서 배포 브랜치를 선택하면 됩니다.</div>
+    </section>
+
+    <!-- 수강생 프로젝트 -->
+    <section>
+      <h2>수강생 프로젝트 <span class="chip blue">hd-project01 ~ hd-project07</span></h2>
+      <p class="sec-sub">수강생이 직접 작성한 프로젝트 기획서를 Claude Code 작업 지시서로 정리해 개발한 실전 업무 도구입니다.
+        모든 저장소에 기획서 원문(CLAUDE.md), 개발일지(docs/개발일지.md), 테스트, README가 포함되어 있습니다.</p>
+      <div class="cards">
+        <div class="card">
+          <div class="no">HD-PROJECT01 · <span class="owner">정하진</span></div>
+          <h3>구매 분석 대시보드</h3>
+          <p class="desc">구매 데이터와 장비 모델 데이터를 품번으로 조인해 톤급 → 모델 → 품번 → 협력업체로 드릴다운. 업체별 비중과 구매 집중도를 시각화하고 보고서(PDF)·엑셀로 내보냅니다.</p>
+          <div class="tags"><span class="tag">데이터 분석</span><span class="tag">Chart.js</span><span class="tag">SheetJS</span><span class="tag">드릴다운</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project01/">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project01">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-PROJECT02 · <span class="owner">권도연</span></div>
+          <h3>반복 업무 자동화 4종</h3>
+          <p class="desc">협력업체 결품(D+4) 응답 웹페이지, 업체별 상이한 PDF 데이터 추출, MES 진행현황 아침 메일, SAP 엑셀 가공·첨부 메일 — 반복 업무 4가지를 자동화했습니다.</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">PDF 추출</span><span class="tag">메일 자동화</span><span class="tag">웹앱</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project02/">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project02">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-PROJECT03 · <span class="owner">공지은</span></div>
+          <h3>대여 아이템 재고 실사 포털</h3>
+          <p class="desc">업체가 사업자번호로 로그인해 재고 실사를 입력하고(불일치 시 소명 필수), HD 담당자가 검토·승인 후 수량·금액 일치도 중심의 보고서를 자동 생성합니다.</p>
+          <div class="tags"><span class="tag">웹 포털</span><span class="tag">승인 워크플로</span><span class="tag">보고서 자동화</span><span class="tag">Supabase 스키마</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project03/">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project03">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-PROJECT04 · <span class="owner">김은수</span></div>
+          <h3>CKD 컨테이너 수량 산출 자동화</h3>
+          <p class="desc">브라질·인도법인 18개월 생산계획과 모델별 CKD 박스 구성으로 40ft 컨테이너 소요량을 자동 산출. 혼적 규칙을 반영한 bin-packing과 적재율 시나리오 비교를 제공합니다.</p>
+          <div class="tags"><span class="tag">계산 엔진</span><span class="tag">Bin-packing</span><span class="tag">시나리오 분석</span><span class="tag">엑셀 입출력</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project04/">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project04">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-PROJECT05 · <span class="owner">최율아</span></div>
+          <h3>해외영업 통합 포털 + 딜러 대시보드</h3>
+          <p class="desc">주간업무·경과채권·환율·출장 캘린더·팀회의·지역별 매출 추이 6개 기능의 팀 포털과, 엑셀 업로드로 14개 딜러 미팅 자료를 만드는 대시보드. 오프라인(비행기) 내보내기 지원.</p>
+          <div class="tags"><span class="tag">팀 포털</span><span class="tag">모바일 반응형</span><span class="tag">캘린더</span><span class="tag">오프라인 내보내기</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project05/">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project05">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-PROJECT06 · <span class="owner">홍근영</span></div>
+          <h3>엔진 사양 관리·비교 웹페이지</h3>
+          <p class="desc">표준 엑셀 양식 Import/Export로 지게차 엔진 사양을 관리하고, RPM별 출력·토크 곡선과 최대 4개 엔진 비교(동일 값 "&lt;-" 표기)를 제공합니다. 사내망 단독 실행 가능.</p>
+          <div class="tags"><span class="tag">엑셀 DB</span><span class="tag">곡선 그래프</span><span class="tag">엔진 비교</span><span class="tag">오프라인</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project06/">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project06">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-PROJECT07 · <span class="owner">정광호</span></div>
+          <h3>Field-Insight — 현장 이슈 플랫폼</h3>
+          <p class="desc">현장 사용자가 전문용어 없이 현상을 설명하면 AI가 판단을 바꿀 질문 3개 이내로 이슈를 정형화하고, 전문가가 4필드로 결론 확정 → 고객 언어 회신 → 해결 확인까지 전체 루프를 구현한 MVP.</p>
+          <div class="tags"><span class="tag">멀티롤 웹앱</span><span class="tag">규칙 엔진</span><span class="tag">상태머신</span><span class="tag">회신 루프</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project07/">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project07">저장소</a></div>
+        </div>
+      </div>
+      <div class="note">각 프로젝트는 실제 회사 데이터 없이 기획서 스키마 기반 <b>샘플 데이터</b>로 전체 흐름이 동작하도록 만들어졌습니다.
+        사내 시스템(SAP·MES·Outlook 등) 연동 지점은 어댑터로 분리되어 있으며, 실적용 방법은 각 저장소의 README와 개발일지에 정리되어 있습니다.</div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>HD 생성형 AI 업무자동화 전문가과정 · 1차수 — 실습·프로젝트 총정리</div>
+    <div><a href="https://github.com/aebonlee">github.com/aebonlee</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
