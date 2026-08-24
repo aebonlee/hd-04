@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar(Upstage) API Key 발급·사용법 — HD 생성형 AI 업무자동화 전문가과정</title>
+<meta name="description" content="국내 업스테이지의 Solar 모델 API 키를 발급받아 도구에 넣는 방법입니다. 한국어 문서 처리에 강합니다.">
+<style>
+  :root {
+    --page:#f7f8f7; --surface:#fdfdfc; --ink:#101210; --ink2:#4c514c; --muted:#878d87;
+    --border:rgba(16,18,16,.10); --grid:#e3e5e2;
+    --hd:#0a7d3b; --hd-dark:#075c2b; --hd-soft:#e7f3ec;
+    --blue:#2a78d6; --blue-soft:#e8f0fb;
+  }
+  * { box-sizing:border-box; }
+  html,body { margin:0; padding:0; }
+  body { background:var(--page); color:var(--ink);
+         font-family:"Pretendard","Malgun Gothic",system-ui,-apple-system,"Segoe UI",sans-serif;
+         line-height:1.6; font-size:15px; }
+  a { color:inherit; }
+  .wrap { max-width:1120px; margin:0 auto; padding:0 24px; }
+
+  /* Hero */
+  /* ── 상단 메뉴 ─────────────────────────────────────────────────────── */
+  .topnav { background:#0d2946; border-bottom:1px solid rgba(255,255,255,.12); position:sticky; top:0; z-index:40; }
+  .topnav-inner { display:flex; align-items:center; gap:20px; flex-wrap:wrap; padding:0 24px; min-height:52px; }
+  .topnav-brand { color:#fff; font-weight:750; font-size:14.5px; text-decoration:none; white-space:nowrap; letter-spacing:-.01em; }
+  .topnav-brand:hover { color:#cfe0ee; }
+  .topnav-links { display:flex; gap:2px; list-style:none; margin:0; padding:0; overflow-x:auto; scrollbar-width:none; }
+  .topnav-links::-webkit-scrollbar { display:none; }
+  .topnav-links a {
+    display:block; padding:14px 12px; color:rgba(255,255,255,.78); text-decoration:none;
+    font-size:13.5px; font-weight:600; white-space:nowrap;
+    border-bottom:2px solid transparent; transition:color .15s, border-color .15s;
+  }
+  .topnav-links a:hover { color:#fff; }
+  /* 지금 보고 있는 메뉴 — 색만으로 표시하지 않고 아래 선까지 준다 */
+  .topnav-links a.active { color:#fff; border-bottom-color:#7ec8a0; }
+  @media (max-width:720px) { .topnav-inner { gap:8px; padding:0 16px; } .topnav-brand { font-size:13.5px; } }
+  h2[id] { scroll-margin-top: 68px; }
+
+  header.hero { background:linear-gradient(160deg,#0b3d22 0%,#0a7d3b 70%,#149a4e 100%); color:#fff; }
+  header.hero .wrap { padding:64px 24px 56px; }
+  .hero .eyebrow { font-size:13px; font-weight:700; letter-spacing:.12em; opacity:.85; text-transform:uppercase; }
+  .hero h1 { font-size:clamp(26px,4.5vw,40px); line-height:1.25; margin:10px 0 14px; font-weight:800; }
+  .hero p.lede { max-width:720px; font-size:16px; opacity:.92; margin:0 0 26px; }
+  .hero .stats { display:flex; gap:14px; flex-wrap:wrap; }
+  .hero .stat { background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.22);
+                border-radius:12px; padding:12px 20px; min-width:130px; }
+  .hero .stat b { display:block; font-size:24px; font-weight:800; }
+  .hero .stat span { font-size:12px; opacity:.85; }
+
+  main { padding:44px 0 30px; }
+  section { margin-bottom:52px; }
+  h2 { font-size:21px; margin:0 0 6px; font-weight:800; }
+  .sec-sub { color:var(--ink2); margin:0 0 22px; font-size:14px; }
+  h2 .chip { display:inline-block; font-size:11px; font-weight:700; vertical-align:3px;
+             border-radius:99px; padding:2px 10px; margin-left:10px; }
+  .chip.green { background:var(--hd-soft); color:var(--hd-dark); }
+  .chip.blue { background:var(--blue-soft); color:#1c5cab; }
+
+  /* 일정 */
+  .timeline { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
+  .tcard { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 20px; }
+  .tcard .day { font-size:12px; font-weight:800; color:var(--hd-dark); letter-spacing:.06em; }
+  .tcard h3 { font-size:15px; margin:6px 0 8px; }
+  .tcard p { margin:0; color:var(--ink2); font-size:13px; }
+
+  /* 카드 그리드 */
+  .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; }
+  /* 3열 고정은 아래 hd-theme.css 뒤의 override 블록에서 잡는다 */
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:14px;
+          padding:20px 22px; display:flex; flex-direction:column; gap:8px;
+          transition:box-shadow .15s ease, transform .15s ease; }
+  .card:hover { box-shadow:0 6px 20px rgba(16,18,16,.08); transform:translateY(-2px); }
+  .card .no { font-size:12px; font-weight:800; color:var(--muted); letter-spacing:.08em; }
+  .card .no .owner { color:var(--hd-dark); }
+  .card h3 { font-size:16px; margin:0; font-weight:750; }
+  .card p.desc { margin:0; color:var(--ink2); font-size:13.5px; flex:1; }
+  .tags { display:flex; gap:6px; flex-wrap:wrap; margin-top:2px; }
+  .tag { font-size:11px; font-weight:600; color:var(--ink2); background:#f0f1ef;
+         border-radius:6px; padding:2px 8px; }
+  .links { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  .btn { font-size:12.5px; font-weight:700; text-decoration:none; border-radius:8px;
+         padding:7px 13px; border:1px solid var(--border); background:#fff; color:var(--ink); }
+  .btn:hover { border-color:#b9bdb9; }
+  .btn.primary { background:var(--hd); border-color:var(--hd); color:#fff; }
+  .btn.primary:hover { background:var(--hd-dark); }
+  .btn.blue { background:var(--blue); border-color:var(--blue); color:#fff; }
+  .btn.blue:hover { background:#1c5cab; }
+  .card.this { border:1.5px solid var(--hd); background:var(--hd-soft); }
+
+  .note { background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--hd);
+          border-radius:10px; padding:14px 18px; color:var(--ink2); font-size:13.5px; margin-top:20px; }
+
+  footer { border-top:1px solid var(--grid); padding:26px 0 40px; color:var(--muted); font-size:13px; }
+  footer .wrap { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+</style>
+<link rel="stylesheet" href="../css/hd-theme.css">
+<style>
+  .guide { max-width: 860px; }
+  .guide h2 { margin-top: 36px; }
+  .guide h3 { margin-top: 24px; }
+  .guide ol, .guide ul { padding-left: 20px; line-height: 1.85; }
+  .guide li { margin-bottom: 6px; }
+  .guide pre { font-size: 12.5px; }
+  .guide .warn {
+    border-left: 4px solid #c8341f; background: #fdeae7; color: #7a1a0c;
+    padding: 14px 16px; border-radius: 8px; margin: 18px 0; font-size: 14px; line-height: 1.7;
+  }
+  .guide .tip {
+    border-left: 4px solid #0a6b34; background: #f0f7f2; color: #08422a;
+    padding: 14px 16px; border-radius: 8px; margin: 18px 0; font-size: 14px; line-height: 1.7;
+  }
+  .guide table { font-size: 13.5px; margin: 14px 0; }
+  .steps { counter-reset: s; list-style: none; padding-left: 0; }
+  .steps > li { counter-increment: s; position: relative; padding-left: 38px; margin-bottom: 16px; }
+  .steps > li::before {
+    content: counter(s); position: absolute; left: 0; top: 1px;
+    width: 25px; height: 25px; border-radius: 50%; background: var(--accent); color: #fff;
+    font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+  }
+</style>
+</head>
+<body class="hd hd-app">
+
+<nav class="topnav" aria-label="주요 메뉴">
+  <div class="wrap topnav-inner">
+    <a class="topnav-brand" href="../index.html">HD 과정 총정리</a>
+    <ul class="topnav-links">
+      <li><a href="../index.html#labs">실습내역</a></li>
+      <li><a href="../index.html#projects">프로젝트 소개</a></li>
+      <li><a href="../guide/openai.html">OpenAI API Key</a></li>
+      <li><a href="../guide/claude.html">Claude API Key</a></li>
+      <li><a href="../guide/solar.html" class="active" aria-current="page">Solar API Key</a></li>
+      <li><a href="../guide/supabase.html">Supabase 사용법</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">사용 안내</div>
+    <h1>Solar(Upstage) API Key 발급·사용법</h1>
+    <p class="lede">국내 업스테이지의 Solar 모델 API 키를 발급받아 도구에 넣는 방법입니다. 한국어 문서 처리에 강합니다.</p>
+  </div>
+</header>
+
+<div class="wrap guide">
+
+<div class="warn">
+  <b>가장 먼저 알아야 할 것 — 브라우저에 넣은 키는 숨겨지지 않습니다.</b><br>
+  이 과정의 도구들은 서버 없이 브라우저에서 도는 정적 페이지입니다.
+  키를 화면에 입력하면 그 키는 <b>내 브라우저 안에만</b> 있고 남에게 전송되지는 않지만,
+  같은 PC를 쓰는 사람이 개발자도구로 꺼내 볼 수 있습니다.
+  <b>공용 PC에서는 쓰고 나서 반드시 키를 지우세요.</b>
+</div>
+
+<div class="warn">
+  <b>키를 GitHub에 올리지 마세요.</b><br>
+  코드 파일이나 <code>config.js</code>에 키를 적어 커밋하면 공개 저장소에서 누구나 봅니다.
+  올라간 키는 <b>지워도 커밋 기록에 남습니다.</b> 실수로 올렸다면 그 키를 즉시 폐기하고 새로 발급하세요.
+  각 회사 콘솔에서 키를 지우면 그 순간부터 못 씁니다.
+</div>
+
+<h2>1. 어디서 발급받나</h2>
+<ol class="steps">
+  <li><a href="https://console.upstage.ai" target="_new" rel="noopener noreferrer">console.upstage.ai</a> 에 가입·로그인합니다.</li>
+  <li><b>API Keys</b> 메뉴에서 새 키를 만듭니다.</li>
+  <li>만들어진 키를 복사합니다. <b>이 화면을 닫으면 다시 볼 수 없습니다.</b></li>
+  <li>가입 시 체험용 크레딧이 주어지는 경우가 있습니다. 소진 후에는 결제 등록이 필요합니다.</li>
+</ol>
+
+<h2>2. 이 과정의 어디에 쓰나</h2>
+<table>
+  <thead><tr><th>프로젝트</th><th>쓰는 곳</th></tr></thead>
+  <tbody>
+    <tr><td>hd-project10 부품 사진 파일명</td>
+        <td>문서·이미지에서 글자를 읽어 내는 기능(Document Digitization).
+            한국어와 도면·라벨 같은 실무 이미지에 강합니다</td></tr>
+  </tbody>
+</table>
+
+<h2>3. 직접 호출해 보기</h2>
+<p>Solar의 대화 API는 <b>OpenAI와 같은 형식</b>을 씁니다. 그래서 OpenAI용 코드에서
+  주소와 모델 이름만 바꿔도 대부분 돌아갑니다.</p>
+<pre><code>curl https://api.upstage.ai/v1/chat/completions \
+  -H "Authorization: Bearer $UPSTAGE_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "solar-pro2",
+    "messages": [{"role": "user", "content": "안녕하세요"}]
+  }'</code></pre>
+<div class="tip">
+  <b>모델 이름은 콘솔에서 확인하세요.</b> 업스테이지는 모델을 비교적 자주 갱신합니다.
+  여기 적은 이름이 맞지 않으면 콘솔의 Models 문서에 있는 현재 이름으로 바꾸면 됩니다.
+</div>
+
+<h2>4. 문서·이미지에서 글자 읽기</h2>
+<p>10번 프로젝트가 쓰는 것은 대화 API가 아니라 <b>문서 판독</b> 쪽입니다.</p>
+<pre><code>curl https://api.upstage.ai/v1/document-digitization \
+  -H "Authorization: Bearer $UPSTAGE_API_KEY" \
+  -F "document=@부품사진.jpg" \
+  -F "model=ocr"</code></pre>
+
+<h2>5. 안 될 때</h2>
+<table>
+  <thead><tr><th>증상</th><th>원인</th></tr></thead>
+  <tbody>
+    <tr><td>401</td><td>키가 틀렸거나 <code>Bearer </code> 접두어 누락</td></tr>
+    <tr><td>404 / model not found</td><td>모델 이름이 바뀜 — 콘솔에서 현재 이름 확인</td></tr>
+    <tr><td>429</td><td>호출이 너무 잦음 또는 한도 초과</td></tr>
+  </tbody>
+</table>
+
+<h2>돈이 새지 않게 하는 법</h2>
+<p>API는 쓴 만큼 돈이 나갑니다. 처음 쓰는 사람이 가장 많이 겪는 사고는
+  <b>테스트하다 반복 호출을 걸어 두고 잊는 것</b>입니다.</p>
+<ul>
+  <li><b>사용 한도(limit)를 먼저 걸어 두세요.</b> 콘솔의 결제·한도 화면에서 월 상한을 정할 수 있습니다.
+    한도를 걸면 넘어갈 때 호출이 막혀 요금이 더 안 늘어납니다.</li>
+  <li><b>키를 용도별로 나누세요.</b> 실습용 키 하나, 실제 업무용 키 하나.
+    실습용이 새면 그것만 폐기하면 됩니다.</li>
+  <li><b>가격은 자주 바뀝니다.</b> 여기 숫자를 적지 않은 이유입니다.
+    각 사의 공식 가격 페이지에서 확인하세요.</li>
+</ul>
+
+  <p style="margin:40px 0 0"><a href="../index.html">← 저장소 총정리로 돌아가기</a></p>
+</div>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>HD 생성형 AI 업무자동화 전문가과정 1차수 · 현대건설기계</p>
+    <p class="small">문의 dreamitbiz@naver.com · 010-2612-4256 · 카카오톡 aebon</p>
+  </div>
+</footer>
+
+</body>
+</html>

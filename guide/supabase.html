@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supabase 사용법 — HD 생성형 AI 업무자동화 전문가과정</title>
+<meta name="description" content="여러 사람이 같은 자료를 보게 하려면 서버가 필요합니다. 무료로 시작할 수 있는 Supabase를 각자 계정에 붙이는 방법입니다.">
+<style>
+  :root {
+    --page:#f7f8f7; --surface:#fdfdfc; --ink:#101210; --ink2:#4c514c; --muted:#878d87;
+    --border:rgba(16,18,16,.10); --grid:#e3e5e2;
+    --hd:#0a7d3b; --hd-dark:#075c2b; --hd-soft:#e7f3ec;
+    --blue:#2a78d6; --blue-soft:#e8f0fb;
+  }
+  * { box-sizing:border-box; }
+  html,body { margin:0; padding:0; }
+  body { background:var(--page); color:var(--ink);
+         font-family:"Pretendard","Malgun Gothic",system-ui,-apple-system,"Segoe UI",sans-serif;
+         line-height:1.6; font-size:15px; }
+  a { color:inherit; }
+  .wrap { max-width:1120px; margin:0 auto; padding:0 24px; }
+
+  /* Hero */
+  /* ── 상단 메뉴 ─────────────────────────────────────────────────────── */
+  .topnav { background:#0d2946; border-bottom:1px solid rgba(255,255,255,.12); position:sticky; top:0; z-index:40; }
+  .topnav-inner { display:flex; align-items:center; gap:20px; flex-wrap:wrap; padding:0 24px; min-height:52px; }
+  .topnav-brand { color:#fff; font-weight:750; font-size:14.5px; text-decoration:none; white-space:nowrap; letter-spacing:-.01em; }
+  .topnav-brand:hover { color:#cfe0ee; }
+  .topnav-links { display:flex; gap:2px; list-style:none; margin:0; padding:0; overflow-x:auto; scrollbar-width:none; }
+  .topnav-links::-webkit-scrollbar { display:none; }
+  .topnav-links a {
+    display:block; padding:14px 12px; color:rgba(255,255,255,.78); text-decoration:none;
+    font-size:13.5px; font-weight:600; white-space:nowrap;
+    border-bottom:2px solid transparent; transition:color .15s, border-color .15s;
+  }
+  .topnav-links a:hover { color:#fff; }
+  /* 지금 보고 있는 메뉴 — 색만으로 표시하지 않고 아래 선까지 준다 */
+  .topnav-links a.active { color:#fff; border-bottom-color:#7ec8a0; }
+  @media (max-width:720px) { .topnav-inner { gap:8px; padding:0 16px; } .topnav-brand { font-size:13.5px; } }
+  h2[id] { scroll-margin-top: 68px; }
+
+  header.hero { background:linear-gradient(160deg,#0b3d22 0%,#0a7d3b 70%,#149a4e 100%); color:#fff; }
+  header.hero .wrap { padding:64px 24px 56px; }
+  .hero .eyebrow { font-size:13px; font-weight:700; letter-spacing:.12em; opacity:.85; text-transform:uppercase; }
+  .hero h1 { font-size:clamp(26px,4.5vw,40px); line-height:1.25; margin:10px 0 14px; font-weight:800; }
+  .hero p.lede { max-width:720px; font-size:16px; opacity:.92; margin:0 0 26px; }
+  .hero .stats { display:flex; gap:14px; flex-wrap:wrap; }
+  .hero .stat { background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.22);
+                border-radius:12px; padding:12px 20px; min-width:130px; }
+  .hero .stat b { display:block; font-size:24px; font-weight:800; }
+  .hero .stat span { font-size:12px; opacity:.85; }
+
+  main { padding:44px 0 30px; }
+  section { margin-bottom:52px; }
+  h2 { font-size:21px; margin:0 0 6px; font-weight:800; }
+  .sec-sub { color:var(--ink2); margin:0 0 22px; font-size:14px; }
+  h2 .chip { display:inline-block; font-size:11px; font-weight:700; vertical-align:3px;
+             border-radius:99px; padding:2px 10px; margin-left:10px; }
+  .chip.green { background:var(--hd-soft); color:var(--hd-dark); }
+  .chip.blue { background:var(--blue-soft); color:#1c5cab; }
+
+  /* 일정 */
+  .timeline { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
+  .tcard { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 20px; }
+  .tcard .day { font-size:12px; font-weight:800; color:var(--hd-dark); letter-spacing:.06em; }
+  .tcard h3 { font-size:15px; margin:6px 0 8px; }
+  .tcard p { margin:0; color:var(--ink2); font-size:13px; }
+
+  /* 카드 그리드 */
+  .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; }
+  /* 3열 고정은 아래 hd-theme.css 뒤의 override 블록에서 잡는다 */
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:14px;
+          padding:20px 22px; display:flex; flex-direction:column; gap:8px;
+          transition:box-shadow .15s ease, transform .15s ease; }
+  .card:hover { box-shadow:0 6px 20px rgba(16,18,16,.08); transform:translateY(-2px); }
+  .card .no { font-size:12px; font-weight:800; color:var(--muted); letter-spacing:.08em; }
+  .card .no .owner { color:var(--hd-dark); }
+  .card h3 { font-size:16px; margin:0; font-weight:750; }
+  .card p.desc { margin:0; color:var(--ink2); font-size:13.5px; flex:1; }
+  .tags { display:flex; gap:6px; flex-wrap:wrap; margin-top:2px; }
+  .tag { font-size:11px; font-weight:600; color:var(--ink2); background:#f0f1ef;
+         border-radius:6px; padding:2px 8px; }
+  .links { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  .btn { font-size:12.5px; font-weight:700; text-decoration:none; border-radius:8px;
+         padding:7px 13px; border:1px solid var(--border); background:#fff; color:var(--ink); }
+  .btn:hover { border-color:#b9bdb9; }
+  .btn.primary { background:var(--hd); border-color:var(--hd); color:#fff; }
+  .btn.primary:hover { background:var(--hd-dark); }
+  .btn.blue { background:var(--blue); border-color:var(--blue); color:#fff; }
+  .btn.blue:hover { background:#1c5cab; }
+  .card.this { border:1.5px solid var(--hd); background:var(--hd-soft); }
+
+  .note { background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--hd);
+          border-radius:10px; padding:14px 18px; color:var(--ink2); font-size:13.5px; margin-top:20px; }
+
+  footer { border-top:1px solid var(--grid); padding:26px 0 40px; color:var(--muted); font-size:13px; }
+  footer .wrap { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+</style>
+<link rel="stylesheet" href="../css/hd-theme.css">
+<style>
+  .guide { max-width: 860px; }
+  .guide h2 { margin-top: 36px; }
+  .guide h3 { margin-top: 24px; }
+  .guide ol, .guide ul { padding-left: 20px; line-height: 1.85; }
+  .guide li { margin-bottom: 6px; }
+  .guide pre { font-size: 12.5px; }
+  .guide .warn {
+    border-left: 4px solid #c8341f; background: #fdeae7; color: #7a1a0c;
+    padding: 14px 16px; border-radius: 8px; margin: 18px 0; font-size: 14px; line-height: 1.7;
+  }
+  .guide .tip {
+    border-left: 4px solid #0a6b34; background: #f0f7f2; color: #08422a;
+    padding: 14px 16px; border-radius: 8px; margin: 18px 0; font-size: 14px; line-height: 1.7;
+  }
+  .guide table { font-size: 13.5px; margin: 14px 0; }
+  .steps { counter-reset: s; list-style: none; padding-left: 0; }
+  .steps > li { counter-increment: s; position: relative; padding-left: 38px; margin-bottom: 16px; }
+  .steps > li::before {
+    content: counter(s); position: absolute; left: 0; top: 1px;
+    width: 25px; height: 25px; border-radius: 50%; background: var(--accent); color: #fff;
+    font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+  }
+</style>
+</head>
+<body class="hd hd-app">
+
+<nav class="topnav" aria-label="주요 메뉴">
+  <div class="wrap topnav-inner">
+    <a class="topnav-brand" href="../index.html">HD 과정 총정리</a>
+    <ul class="topnav-links">
+      <li><a href="../index.html#labs">실습내역</a></li>
+      <li><a href="../index.html#projects">프로젝트 소개</a></li>
+      <li><a href="../guide/openai.html">OpenAI API Key</a></li>
+      <li><a href="../guide/claude.html">Claude API Key</a></li>
+      <li><a href="../guide/solar.html">Solar API Key</a></li>
+      <li><a href="../guide/supabase.html" class="active" aria-current="page">Supabase 사용법</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">사용 안내</div>
+    <h1>Supabase 사용법</h1>
+    <p class="lede">여러 사람이 같은 자료를 보게 하려면 서버가 필요합니다. 무료로 시작할 수 있는 Supabase를 각자 계정에 붙이는 방법입니다.</p>
+  </div>
+</header>
+
+<div class="wrap guide">
+
+<h2>왜 필요한가</h2>
+<p>이 과정의 도구들은 기본적으로 <b>내 브라우저에만</b> 자료를 담습니다.
+  혼자 쓰는 도구(구매 분석·컨테이너 산출·사진 파일명)는 그것으로 충분합니다.</p>
+<p>그런데 <b>여럿이 주고받아야 하는 도구</b>는 그러면 목적이 성립하지 않습니다.
+  협력업체가 각자 응답하고, 팀이 서로 보고, 접수자와 전문가가 주고받아야 하는데
+  자료가 각자 브라우저에만 있으면 <b>서로 안 보이기 때문</b>입니다.</p>
+<table>
+  <thead><tr><th>서버가 필요한 프로젝트</th><th>왜</th></tr></thead>
+  <tbody>
+    <tr><td>hd-project02 결품 응답</td><td>여러 업체가 같은 표를 보고 각자 응답</td></tr>
+    <tr><td>hd-project03 재고 실사</td><td>업체가 입력하고 담당자가 검토</td></tr>
+    <tr><td>hd-project05 해외영업 포털</td><td>팀원이 주간업무·환율·출장을 함께 봄</td></tr>
+    <tr><td>hd-project07 Field-Insight</td><td>접수자와 전문가가 다른 사람</td></tr>
+    <tr><td>hd-project08 업무공유 대시보드</td><td>"공유"가 목적</td></tr>
+    <tr><td>hd-project11 KPI 자동화</td><td>사업장별 담당자가 각자 입력</td></tr>
+  </tbody>
+</table>
+
+<h2>1. 내 프로젝트 만들기</h2>
+<ol class="steps">
+  <li><a href="https://supabase.com" target="_new" rel="noopener noreferrer">supabase.com</a> 에 GitHub 계정으로 가입합니다.</li>
+  <li><b>New project</b> — 이름과 지역(<b>Northeast Asia (Seoul)</b> 권장)을 고릅니다.</li>
+  <li><b>데이터베이스 비밀번호</b>를 정합니다. 이건 따로 적어 두세요. 잊으면 재설정해야 합니다.</li>
+  <li>1~2분 기다리면 준비됩니다.</li>
+</ol>
+
+<h2>2. 표 만들기 — SQL 붙여 넣기</h2>
+<ol class="steps">
+  <li>쓰려는 프로젝트 저장소에서 <code>supabase/schema.sql</code> 파일을 엽니다.</li>
+  <li><b>전체를 복사</b>합니다.</li>
+  <li>Supabase 화면 왼쪽 → <b>SQL Editor</b> → 붙여 넣고 <b>Run</b>.</li>
+  <li>표·정책·함수가 한 번에 만들어집니다. <b>여러 번 실행해도 안전</b>하게 짜여 있습니다.</li>
+</ol>
+<div class="tip">
+  각 저장소의 <code>supabase/README.md</code> 에 그 프로젝트만의 준비 절차(계정 만들기 등)가 더 적혀 있습니다.
+  SQL만 올리고 계정 연결을 빠뜨리면 <b>로그인은 되는데 자료가 하나도 안 보이는</b> 상태가 됩니다.
+</div>
+
+<h2>3. 앱에 연결하기</h2>
+<ol class="steps">
+  <li>Supabase → <b>Settings → API</b> 에서 두 값을 복사합니다.
+    <ul>
+      <li><b>Project URL</b></li>
+      <li><b>Project API keys → anon / public</b></li>
+    </ul>
+  </li>
+  <li>저장소의 <code>js/config.js</code> 를 열어 두 값을 붙여 넣고
+    <code>USE_SUPABASE</code> 를 <code>true</code> 로 바꿉니다.</li>
+  <li>커밋·푸시하면 배포된 페이지가 서버를 씁니다.</li>
+</ol>
+<div class="tip">
+  커밋하지 않고 잠깐 확인만 하려면 주소 뒤에 <code>?supabase=1</code> 을 붙이면 됩니다.
+</div>
+
+<div class="warn">
+  <b>service_role 키는 절대 넣지 마세요.</b><br>
+  같은 화면에 <code>anon</code> 키와 <code>service_role</code> 키가 나란히 있습니다.
+  <code>anon</code> 은 브라우저에 노출돼도 되는 키이고, 실제 차단은 아래 RLS가 합니다.
+  하지만 <code>service_role</code> 은 <b>모든 보안 규칙을 통째로 우회</b>합니다.
+  그 키가 공개 저장소에 올라가면 누구나 전체 데이터를 읽고 지울 수 있습니다.
+</div>
+
+<h2>4. 누가 무엇을 볼 수 있는가 — RLS</h2>
+<p>Supabase는 <b>Row Level Security(RLS)</b> 로 행 단위 접근을 막습니다.
+  이 과정의 스키마에는 이미 정책이 들어 있습니다.</p>
+<ul>
+  <li><b>업체는 자기 것만</b> 봅니다 — 화면 필터가 아니라 DB가 막습니다.
+    화면에서만 막으면 주소만 바꿔도 남의 자료가 보입니다.</li>
+  <li><b>기록성 표(로그·응답)는 고치거나 지울 수 없습니다.</b>
+    UPDATE·DELETE 정책을 아예 만들지 않았습니다. 사후 조작을 막기 위해서입니다.</li>
+  <li>RLS가 "지금 접속한 사람이 누구인지" 알려면 <b>Auth 사용자와 업체를 이어 줘야</b> 합니다.
+    이어 주지 않으면 로그인은 되는데 아무것도 안 보입니다.</li>
+</ul>
+
+<h2>5. 확인하는 법</h2>
+<ol class="steps">
+  <li>페이지를 열면 맨 위에 띠가 뜹니다.
+    <b>"서버에 연결됨"</b> 이면 성공, <b>"이 브라우저에만 저장됩니다"</b> 면 아직 데모입니다.
+    실패한 경우 띠에 이유가 함께 나옵니다.</li>
+  <li><b>다른 브라우저(또는 시크릿 창)</b> 로 열어 같은 자료가 보이는지 확인합니다.
+    이게 진짜 확인 방법입니다 — 같은 브라우저에서는 데모 모드여도 자료가 보입니다.</li>
+</ol>
+
+<h2>6. SQL이 맞는지 미리 확인하기</h2>
+<p>운영에서 처음 돌리지 않도록, 저장소마다 검증 스크립트를 넣어 두었습니다.</p>
+<pre><code>./scripts/sqltest/run.sh</code></pre>
+<p>임시 PostgreSQL을 잠깐 띄워 <code>schema.sql</code> 을 <b>실제로 적용해 보고</b>
+  제약·정책·권한이 의도대로인지 확인한 뒤 지웁니다. 기존 설치에 영향이 없습니다.
+  (PostgreSQL이 없으면 <code>brew install postgresql@17</code>)</p>
+
+<h2>7. 안 될 때</h2>
+<table>
+  <thead><tr><th>증상</th><th>원인</th></tr></thead>
+  <tbody>
+    <tr><td>relation "..." does not exist</td><td><code>schema.sql</code> 을 아직 실행하지 않음</td></tr>
+    <tr><td>로그인은 되는데 목록이 비어 있음</td><td>Auth 사용자와 업체/팀원 행을 안 이어 줌 (RLS가 전부 걸러 냄)</td></tr>
+    <tr><td>new row violates row-level security policy</td><td>쓰기 권한이 없는 계정 — 관리자 표에 등록됐는지 확인</td></tr>
+    <tr><td>Invalid API key</td><td>키를 잘못 복사했거나 앞뒤 공백이 붙음</td></tr>
+    <tr><td>"다른 사람이 먼저 저장했습니다"</td><td>정상 동작입니다 — 동시 편집을 막은 것.
+        새로고침해 최신 자료를 받은 뒤 다시 입력하세요</td></tr>
+  </tbody>
+</table>
+
+<h2>8. 무료 한도</h2>
+<p>무료 플랜으로 이 과정의 도구들을 쓰기에는 충분합니다.
+  다만 <b>일정 기간 아무도 접속하지 않으면 프로젝트가 일시 정지</b>될 수 있습니다.
+  정지되면 대시보드에서 다시 켜면 됩니다. 정확한 한도는 공식 가격 페이지에서 확인하세요.</p>
+
+  <p style="margin:40px 0 0"><a href="../index.html">← 저장소 총정리로 돌아가기</a></p>
+</div>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>HD 생성형 AI 업무자동화 전문가과정 1차수 · 현대건설기계</p>
+    <p class="small">문의 dreamitbiz@naver.com · 010-2612-4256 · 카카오톡 aebon</p>
+  </div>
+</footer>
+
+</body>
+</html>
