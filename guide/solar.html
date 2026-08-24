@@ -109,23 +109,22 @@
   .hd.hd-app .topnav-brand:visited   { color: #ffffff; }
   .hd.hd-app .topnav-brand:hover     { color: #cfe0ee; }
 
-  .guide { max-width: 860px; }
-  .guide h2 { margin-top: 36px; }
-  .guide h3 { margin-top: 24px; }
-  .guide ol, .guide ul { padding-left: 20px; line-height: 1.85; }
-  .guide li { margin-bottom: 6px; }
+  /* 폭·제목·목록 간격은 공통 테마의 세로 리듬이 잡는다.
+     여기서 또 정하면 값이 두 곳으로 갈려 다음 사람이 어디를 고쳐야 할지 모른다. */
   .guide pre { font-size: 12.5px; }
+  /* 안내 띠 — 위아래 간격은 테마(--sp-3)가 잡으므로 색과 안쪽 여백만 정한다 */
   .guide .warn {
     border-left: 4px solid #c8341f; background: #fdeae7; color: #7a1a0c;
-    padding: 14px 16px; border-radius: 8px; margin: 18px 0; font-size: 14px; line-height: 1.7;
+    padding: 16px 18px; border-radius: 8px; font-size: 14px; line-height: 1.75;
   }
   .guide .tip {
     border-left: 4px solid #0a6b34; background: #f0f7f2; color: #08422a;
-    padding: 14px 16px; border-radius: 8px; margin: 18px 0; font-size: 14px; line-height: 1.7;
+    padding: 16px 18px; border-radius: 8px; font-size: 14px; line-height: 1.75;
   }
-  .guide table { font-size: 13.5px; margin: 14px 0; }
+  .guide .warn > :last-child, .guide .tip > :last-child { margin-bottom: 0; }
+  .guide table { font-size: 13.5px; }
   .steps { counter-reset: s; list-style: none; padding-left: 0; }
-  .steps > li { counter-increment: s; position: relative; padding-left: 38px; margin-bottom: 16px; }
+  .steps > li { counter-increment: s; position: relative; padding-left: 38px; margin-bottom: var(--sp-2); }
   .steps > li::before {
     content: counter(s); position: absolute; left: 0; top: 1px;
     width: 25px; height: 25px; border-radius: 50%; background: var(--accent); color: #fff;
@@ -157,7 +156,7 @@
   </div>
 </header>
 
-<div class="wrap guide">
+<div class="wrap guide" style="padding-top:var(--sp-5);padding-bottom:var(--sp-5)">
 
 <div class="warn">
   <b>가장 먼저 알아야 할 것 — 브라우저에 넣은 키는 숨겨지지 않습니다.</b><br>
@@ -236,7 +235,7 @@
     각 사의 공식 가격 페이지에서 확인하세요.</li>
 </ul>
 
-  <p style="margin:40px 0 0"><a href="../index.html">← 저장소 총정리로 돌아가기</a></p>
+  <p style="margin:var(--sp-5) 0 0"><a href="../index.html">← 저장소 총정리로 돌아가기</a></p>
 </div>
 
 <footer class="foot">
