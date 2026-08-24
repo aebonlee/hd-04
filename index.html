@@ -115,9 +115,33 @@
     border-color: #0a6b34; color: #0a6b34; background: #eaf4ee;
   }
   /* 지금 보고 있는 이 페이지(hd-04) 카드는 한 번 더 구분한다 */
+  /* 지금 보고 있는 페이지(hd-04) 카드 — 나머지와 확실히 갈라 놓는다.
+     테두리만 다르면 스쳐 지나가므로 면·그림자·라벨까지 함께 준다. */
   .hd.hd-app .cards .card.this {
-    background: #e7f3ec; border-color: #0a6b34; border-top-width: 3px;
+    background: linear-gradient(180deg, #ddefe4, #f2faf5);
+    border: 2px solid #0a6b34;
+    border-top-width: 4px;
+    box-shadow: 0 6px 20px -6px rgba(10, 107, 52, .35);
   }
+  .hd.hd-app .cards .card.this .no {
+    color: #08542a;
+    font-weight: 750;
+  }
+  /* '이 페이지'라는 사실을 글자로도 붙인다 — 색만으로는 색약인 사람에게 안 보인다 */
+  .hd.hd-app .cards .card.this .no::after {
+    content: "현재 보는 중";
+    display: inline-block;
+    margin-left: 8px;
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: #0a6b34;
+    color: #fff;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0;
+    vertical-align: 1px;
+  }
+  .hd.hd-app .cards .card.this h3 { color: #08542a; }
 
   /* 수강생 프로젝트 — 파랑. 흰 면을 그대로 두어 실습 섹션과 갈린다. */
   .hd.hd-app section:has(.chip.blue) .cards .card {
@@ -128,7 +152,10 @@
   .hd.hd-app section:has(.chip.blue) .cards .card .no { color: var(--hd-ink-3); }
   /* 수강생 성명은 코드와 같은 줄에 붙으므로 색만으로는 약하다.
      굵기까지 달리해 색을 못 보는 사람도 이름이 어디인지 알 수 있게 한다. */
-  .hd.hd-app .cards .card .owner { color: #a3306a; font-weight: 750; letter-spacing: 0; }
+  /* 수강생 이름 — 사람 이름이라 파랑으로 둔다.
+     섹션 강조색(#1c5cab)보다 진한 남색을 써서 같은 파랑이어도 이름이 앞으로 나온다.
+     흰 바탕 10.6:1, 섹션색과도 1.6 배 밝기 차이가 나 서로 뭉개지지 않는다. */
+  .hd.hd-app .cards .card .owner { color: #153e75; font-weight: 750; letter-spacing: 0; }
   .hd.hd-app section:has(.chip.blue) .links .btn.blue,
   .hd.hd-app section:has(.chip.blue) .links .btn.primary {
     background: #1c5cab; border-color: #1c5cab;
@@ -265,7 +292,7 @@
           <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-03/" target="_new" rel="noopener noreferrer">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-03" target="_new" rel="noopener noreferrer">저장소</a></div>
         </div>
         <div class="card this">
-          <div class="no">HD-04 · 이 페이지</div>
+          <div class="no">HD-04</div>
           <h3>교육과정 총정리</h3>
           <p class="desc">이번 과정에서 사용한 모든 실습·프로젝트 저장소를 소개하는 안내 페이지입니다. 지금 보고 계신 곳!</p>
           <div class="tags"><span class="tag">정적 페이지</span><span class="tag">과정 안내</span></div>
