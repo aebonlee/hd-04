@@ -41,8 +41,15 @@ def page(slug, title, desc, nav, body):
   .guide .warn > :last-child, .guide .tip > :last-child {{ margin-bottom: 0; }}
   .guide table {{ font-size: 13.5px; }}
   .steps {{ counter-reset: s; list-style: none; padding-left: 0; }}
-  .steps > li {{ counter-increment: s; position: relative; padding-left: 38px; margin-bottom: var(--sp-2); }}
-  .steps > li::before {{
+  /* 번호 단계는 한 항목이 여러 줄이라 일반 목록(8px)보다 벌려야 경계가 보인다.
+     테마의 `.hd.hd-app li` 가 (0,2,1) 이므로 여기도 그만큼 올려야 이긴다. */
+  .hd.hd-app .steps > li {{
+    counter-increment: s; position: relative; padding-left: 38px;
+    margin-bottom: var(--sp-3);
+  }}
+  .hd.hd-app .steps > li:last-child {{ margin-bottom: 0; }}
+  .hd.hd-app .steps {{ margin-bottom: var(--sp-3); }}
+  .hd.hd-app .steps > li::before {{
     content: counter(s); position: absolute; left: 0; top: 1px;
     width: 25px; height: 25px; border-radius: 50%; background: var(--accent); color: #fff;
     font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;
