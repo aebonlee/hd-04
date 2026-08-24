@@ -108,6 +108,37 @@
   .hd.hd-app .cards .card .tags { margin-top: auto; padding-top: 4px; display: flex; flex-wrap: wrap; gap: 5px; }
   .hd.hd-app .cards .card .links { display: flex; gap: 8px; padding-top: 4px; }
   .hd.hd-app .cards .card .links .btn { flex: 1 1 auto; justify-content: center; }
+
+  /* 두 버튼의 역할이 다르므로 무게를 다르게 준다.
+     데모 열기 = 이 페이지에서 하려는 일(주). 저장소 = 곁들이는 길(부).
+     둘 다 같은 외곽선 버튼이면 어느 쪽을 눌러야 하는지 알 수 없다. */
+  .hd.hd-app .cards .card .links .btn.blue,
+  .hd.hd-app .links .btn.blue {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-weight: 650;
+  }
+  .hd.hd-app .cards .card .links .btn.blue:hover,
+  .hd.hd-app .links .btn.blue:hover {
+    background: var(--accent-deep);
+    border-color: var(--accent-deep);
+    color: #fff;
+  }
+  .hd.hd-app .cards .card .links .btn:not(.blue),
+  .hd.hd-app .links .btn:not(.blue) {
+    background: transparent;
+    border-color: var(--hd-line);
+    color: var(--hd-ink-2);
+    flex: 0 1 auto;          /* 부는 주보다 좁게 */
+    padding-left: 14px; padding-right: 14px;
+  }
+  .hd.hd-app .cards .card .links .btn:not(.blue):hover,
+  .hd.hd-app .links .btn:not(.blue):hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-soft);
+  }
 </style>
 </head>
 <body class="hd hd-app">
