@@ -90,8 +90,55 @@
   /* 카드 안 리듬 — 제목·설명·태그·버튼이 같은 간격으로 서게 */
   .hd.hd-app .cards .card { display: flex; flex-direction: column; gap: 10px; padding: 20px 22px 18px; }
   .hd.hd-app .cards .card h3 { font-size: 17px; line-height: 1.35; margin: 0; }
-  .hd.hd-app .cards .card .no { font-size: 11.5px; letter-spacing: .04em; color: var(--hd-ink-3); font-weight: 700; }
-  .hd.hd-app .cards .card .owner { color: var(--accent); }
+  .hd.hd-app .cards .card .no { font-size: 11.5px; letter-spacing: .04em; color: var(--hd-ink-3); font-weight: 600; }
+
+  /* ── 두 섹션을 색으로 가른다 ─────────────────────────────────────────
+     실습 저장소(hd-01~08)와 수강생 프로젝트(hd-project01~11)는 성격이 다르다.
+     섹션에 붙은 chip 색으로 어느 섹션인지 가려낸다(:has). */
+
+  /* 실습 저장소 — 초록. 면을 아주 옅게 깔아 프로젝트 카드와 층을 만든다. */
+  .hd.hd-app section:has(.chip.green) .cards .card {
+    background: #f5faf7;
+    border-color: #cfe3d6;
+    border-top: 3px solid #0a6b34;
+  }
+  .hd.hd-app section:has(.chip.green) .cards .card .no { color: #0a6b34; font-weight: 700; }
+  .hd.hd-app section:has(.chip.green) .links .btn.blue {
+    background: #0a6b34; border-color: #0a6b34;
+  }
+  .hd.hd-app section:has(.chip.green) .links .btn.blue:hover {
+    background: #08542a; border-color: #08542a;
+  }
+  .hd.hd-app section:has(.chip.green) .links .btn:not(.blue):hover {
+    border-color: #0a6b34; color: #0a6b34; background: #eaf4ee;
+  }
+  /* 지금 보고 있는 이 페이지(hd-04) 카드는 한 번 더 구분한다 */
+  .hd.hd-app .cards .card.this {
+    background: #e7f3ec; border-color: #0a6b34; border-top-width: 3px;
+  }
+
+  /* 수강생 프로젝트 — 파랑. 흰 면을 그대로 두어 실습 섹션과 갈린다. */
+  .hd.hd-app section:has(.chip.blue) .cards .card {
+    background: var(--hd-surface);
+    border-color: #cfdcee;
+    border-top: 3px solid #1c5cab;
+  }
+  .hd.hd-app section:has(.chip.blue) .cards .card .no { color: var(--hd-ink-3); }
+  /* 수강생 성명은 코드와 같은 줄에 붙으므로 색만으로는 약하다.
+     굵기까지 달리해 색을 못 보는 사람도 이름이 어디인지 알 수 있게 한다. */
+  .hd.hd-app .cards .card .owner { color: #a3306a; font-weight: 750; letter-spacing: 0; }
+  .hd.hd-app section:has(.chip.blue) .links .btn.blue {
+    background: #1c5cab; border-color: #1c5cab;
+  }
+  .hd.hd-app section:has(.chip.blue) .links .btn.blue:hover {
+    background: #164a8a; border-color: #164a8a;
+  }
+  .hd.hd-app section:has(.chip.blue) .links .btn:not(.blue):hover {
+    border-color: #1c5cab; color: #1c5cab; background: #eef4fb;
+  }
+  /* 카드 위 강조선과 짝이 되게 태그도 섹션 색을 옅게 받는다 */
+  .hd.hd-app section:has(.chip.green) .tag { background: #e7f1ea; color: #0a5b2c; }
+  .hd.hd-app section:has(.chip.blue)  .tag { background: #edf3fa; color: #1a4e90; }
   .hd.hd-app .cards .card .desc { font-size: 13.5px; line-height: 1.72; color: var(--hd-ink-2); margin: 0; }
   .hd.hd-app .cards .card .desc + .desc { margin-top: -2px; }
   /* 설명 안 소제목 — 무엇을 하는 도구인지 한 줄로 먼저 보이게 */
