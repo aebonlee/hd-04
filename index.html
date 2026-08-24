@@ -103,13 +103,15 @@
     border-top: 3px solid #0a6b34;
   }
   .hd.hd-app section:has(.chip.green) .cards .card .no { color: #0a6b34; font-weight: 700; }
-  .hd.hd-app section:has(.chip.green) .links .btn.blue {
+  .hd.hd-app section:has(.chip.green) .links .btn.blue,
+  .hd.hd-app section:has(.chip.green) .links .btn.primary {
     background: #0a6b34; border-color: #0a6b34;
   }
-  .hd.hd-app section:has(.chip.green) .links .btn.blue:hover {
+  .hd.hd-app section:has(.chip.green) .links .btn.blue:hover,
+  .hd.hd-app section:has(.chip.green) .links .btn.primary:hover {
     background: #08542a; border-color: #08542a;
   }
-  .hd.hd-app section:has(.chip.green) .links .btn:not(.blue):hover {
+  .hd.hd-app section:has(.chip.green) .links .btn:not(.blue):not(.primary):hover {
     border-color: #0a6b34; color: #0a6b34; background: #eaf4ee;
   }
   /* 지금 보고 있는 이 페이지(hd-04) 카드는 한 번 더 구분한다 */
@@ -127,13 +129,15 @@
   /* 수강생 성명은 코드와 같은 줄에 붙으므로 색만으로는 약하다.
      굵기까지 달리해 색을 못 보는 사람도 이름이 어디인지 알 수 있게 한다. */
   .hd.hd-app .cards .card .owner { color: #a3306a; font-weight: 750; letter-spacing: 0; }
-  .hd.hd-app section:has(.chip.blue) .links .btn.blue {
+  .hd.hd-app section:has(.chip.blue) .links .btn.blue,
+  .hd.hd-app section:has(.chip.blue) .links .btn.primary {
     background: #1c5cab; border-color: #1c5cab;
   }
-  .hd.hd-app section:has(.chip.blue) .links .btn.blue:hover {
+  .hd.hd-app section:has(.chip.blue) .links .btn.blue:hover,
+  .hd.hd-app section:has(.chip.blue) .links .btn.primary:hover {
     background: #164a8a; border-color: #164a8a;
   }
-  .hd.hd-app section:has(.chip.blue) .links .btn:not(.blue):hover {
+  .hd.hd-app section:has(.chip.blue) .links .btn:not(.blue):not(.primary):hover {
     border-color: #1c5cab; color: #1c5cab; background: #eef4fb;
   }
   /* 카드 위 강조선과 짝이 되게 태그도 섹션 색을 옅게 받는다 */
@@ -160,28 +164,32 @@
      데모 열기 = 이 페이지에서 하려는 일(주). 저장소 = 곁들이는 길(부).
      둘 다 같은 외곽선 버튼이면 어느 쪽을 눌러야 하는지 알 수 없다. */
   .hd.hd-app .cards .card .links .btn.blue,
-  .hd.hd-app .links .btn.blue {
+  .hd.hd-app .cards .card .links .btn.primary,
+  .hd.hd-app .links .btn.blue,
+  .hd.hd-app .links .btn.primary {
     background: var(--accent);
     border-color: var(--accent);
     color: #fff;
     font-weight: 650;
   }
   .hd.hd-app .cards .card .links .btn.blue:hover,
-  .hd.hd-app .links .btn.blue:hover {
+  .hd.hd-app .cards .card .links .btn.primary:hover,
+  .hd.hd-app .links .btn.blue:hover,
+  .hd.hd-app .links .btn.primary:hover {
     background: var(--accent-deep);
     border-color: var(--accent-deep);
     color: #fff;
   }
-  .hd.hd-app .cards .card .links .btn:not(.blue),
-  .hd.hd-app .links .btn:not(.blue) {
+  .hd.hd-app .cards .card .links .btn:not(.blue):not(.primary),
+  .hd.hd-app .links .btn:not(.blue):not(.primary) {
     background: transparent;
     border-color: var(--hd-line);
     color: var(--hd-ink-2);
     flex: 0 1 auto;          /* 부는 주보다 좁게 */
     padding-left: 14px; padding-right: 14px;
   }
-  .hd.hd-app .cards .card .links .btn:not(.blue):hover,
-  .hd.hd-app .links .btn:not(.blue):hover {
+  .hd.hd-app .cards .card .links .btn:not(.blue):not(.primary):hover,
+  .hd.hd-app .links .btn:not(.blue):not(.primary):hover {
     border-color: var(--accent);
     color: var(--accent);
     background: var(--accent-soft);
@@ -199,7 +207,7 @@
       실전 프로젝트(hd-project01~11)를 한 페이지에 정리했습니다.</p>
     <div class="stats">
       <div class="stat"><b>7</b><span>실습 저장소</span></div>
-      <div class="stat"><b>10</b><span>수강생 프로젝트</span></div>
+      <div class="stat"><b>11</b><span>수강생 프로젝트</span></div>
       <div class="stat"><b>4+2</b><span>실습 4일 + 프로젝트 2일</span></div>
       <div class="stat"><b>100%</b><span>GitHub Pages 배포</span></div>
     </div>
