@@ -15,6 +15,17 @@ def page(slug, title, desc, nav, body):
 <style>{STYLE}</style>
 <link rel="stylesheet" href="../css/hd-theme.css">
 <style>
+  /* ⚠ hd-theme.css 뒤에 와야 한다 — 메뉴의 <a> 에는 클래스가 없어
+     테마의 a:not([class]) 규칙이 강조색을 주고, 그 색이 메뉴 배경과 같은 계열이라
+     대비 1.24 로 글자가 묻힌다. */
+  .hd.hd-app .topnav-links a,
+  .hd.hd-app .topnav-links a:visited {{ color: rgba(255, 255, 255, .82); }}
+  .hd.hd-app .topnav-links a:hover   {{ color: #ffffff; }}
+  .hd.hd-app .topnav-links a.active  {{ color: #ffffff; border-bottom-color: #7ec8a0; }}
+  .hd.hd-app .topnav-brand,
+  .hd.hd-app .topnav-brand:visited   {{ color: #ffffff; }}
+  .hd.hd-app .topnav-brand:hover     {{ color: #cfe0ee; }}
+
   .guide {{ max-width: 860px; }}
   .guide h2 {{ margin-top: 36px; }}
   .guide h3 {{ margin-top: 24px; }}
