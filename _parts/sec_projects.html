@@ -1,0 +1,101 @@
+    <section>
+      <h2 id="projects">수강생 프로젝트 <span class="chip blue">hd-project01 ~ hd-project11</span></h2>
+      <p class="sec-sub">수강생이 직접 작성한 프로젝트 기획서를 Claude Code 작업 지시서로 정리해 개발한 실전 업무 도구입니다.
+        모든 저장소에 기획서 원문(CLAUDE.md), 개발일지(docs/개발일지.md), 테스트, README가 포함되어 있습니다.</p>
+      <div class="cards">
+        <div class="card">
+          <div class="no">HD-PROJECT01 · <span class="owner">정하진</span></div>
+          <h3>구매 분석 대시보드</h3>
+          <p class="lead">구매 실적 엑셀과 장비 모델 엑셀을 <b>품번으로 이어 붙여</b>, 톤급 → 모델 → 품번 → 협력업체 순서로 파고들며 보는 대시보드입니다.</p>
+          <ul class="points"><li>한 품번이 여러 모델에 쓰이면 금액을 <b>모델 수로 나눠 담아</b> 합계가 부풀지 않습니다</li><li>모델 마스터에 없는 품번은 버리지 않고 <b>(미매칭)으로 따로</b> 보여 줍니다</li><li>업체별 금액 비중(%)과 집중도 경고 기준을 직접 조절할 수 있습니다</li></ul>
+          <div class="tags"><span class="tag">데이터 분석</span><span class="tag">Chart.js</span><span class="tag">SheetJS</span><span class="tag">드릴다운</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project01/" target="_new" rel="noopener noreferrer">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project01" target="_new" rel="noopener noreferrer">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-PROJECT02 · <span class="owner">권도연</span></div>
+          <h3>반복 업무 자동화 4종</h3>
+          <p class="lead">협력업체가 직접 접속해 D+4 결품 건마다 <b>특이사항 유/무를 응답</b>하는 웹입니다. 매일 엑셀을 만들어 메일로 보내던 일을 대신합니다.</p>
+          <ul class="points"><li>부족수량은 저장하지 않고 <b>소요량 − 재고로 계산</b>해, 값을 고쳐도 어긋나지 않습니다</li><li>특이사항 '있음'인데 사유가 비면 <b>DB가 저장을 막습니다</b></li><li>업체는 자기 것만 봅니다 — 화면이 아니라 RLS가 막습니다</li></ul>
+          <div class="tags"><span class="tag">Python</span><span class="tag">PDF 추출</span><span class="tag">메일 자동화</span><span class="tag">웹앱</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project02/" target="_new" rel="noopener noreferrer">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project02" target="_new" rel="noopener noreferrer">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-PROJECT03 · <span class="owner">공지은</span></div>
+          <h3>대여 아이템 재고 실사 포털</h3>
+          <p class="lead">업체가 사업자번호로 로그인해 <b>실물 재고를 기입하고 확인서를 첨부</b>하면, 담당자가 검토·확정해 <b>실제 운영 중인 총괄표 양식</b>으로 결과를 뽑습니다.</p>
+          <ul class="points"><li>관리자가 전월 마감 전산재고를 올리고 <b>등록 마감일과 일괄 요청</b>을 보냅니다</li><li>기한을 넘긴 업체는 접속하면 상단에 <b>지각일수가 뜹니다</b></li><li>불일치 중 <b>재고보정 O</b>로 확정한 건만 총괄표 하단 「보정요청 리스트」로 따로 취합됩니다</li></ul>
+          <div class="tags"><span class="tag">웹 포털</span><span class="tag">승인 워크플로</span><span class="tag">보고서 자동화</span><span class="tag">Supabase 스키마</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project03/" target="_new" rel="noopener noreferrer">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project03" target="_new" rel="noopener noreferrer">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-PROJECT04 · <span class="owner">김은수</span></div>
+          <h3>CKD 컨테이너 수량 산출 자동화</h3>
+          <p class="lead">18개월 생산계획·모델별 박스 구성·박스 규격을 넣으면 <b>월별 필요 40ft 컨테이너 수</b>를 산출합니다. 감으로 예측하던 것을 규칙으로 바꿉니다.</p>
+          <ul class="points"><li>나머지가 남으면 <b>반드시 올림</b>합니다 — 내리면 과소 예측이 되어 선적이 막힙니다</li><li>박스 부피는 저장하지 않고 치수에서 계산해, 치수를 고치면 따라옵니다</li><li>박스 구성이 없는 모델은 <b>건수를 함께 알려</b> 조용히 과소 산출되지 않게 합니다</li></ul>
+          <div class="tags"><span class="tag">계산 엔진</span><span class="tag">Bin-packing</span><span class="tag">시나리오 분석</span><span class="tag">엑셀 입출력</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project04/" target="_new" rel="noopener noreferrer">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project04" target="_new" rel="noopener noreferrer">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-PROJECT05 · <span class="owner">최율아</span></div>
+          <h3>해외영업 통합 포털 + 딜러 대시보드</h3>
+          <p class="lead">주간업무·경과채권·환율·출장일정·팀회의를 한 곳에서 보는 <b>팀 포털</b>과, 엑셀 업로드로 14개 딜러 미팅 자료를 만드는 <b>대시보드</b>입니다.</p>
+          <ul class="points"><li>경과채권이 채권잔액보다 크면 <b>저장이 막힙니다</b> — 엑셀 열이 밀렸을 때 실제로 들어오는 값입니다</li><li>환율이 없으면 원화 환산을 <b>0이 아니라 비워</b> 둡니다. 0은 '실적이 없다'로 읽힙니다</li><li>남의 주간보고는 못 고칩니다 — 작성자와 책임자만 수정할 수 있습니다</li></ul>
+          <div class="tags"><span class="tag">팀 포털</span><span class="tag">모바일 반응형</span><span class="tag">캘린더</span><span class="tag">오프라인 내보내기</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project05/" target="_new" rel="noopener noreferrer">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project05" target="_new" rel="noopener noreferrer">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-PROJECT06 · <span class="owner">홍근영</span></div>
+          <h3>엔진 사양 관리·비교 웹페이지</h3>
+          <p class="lead">엔진사마다 제각각인 사양서를 <b>표준 엑셀 한 장</b>으로 모아 관리하고, 엔진명 또는 지게차 모델명으로 찾아 <b>RPM별 출력·토크 곡선</b>과 최대 4개 비교를 봅니다.</p>
+          <ul class="points"><li>같은 엔진에 같은 RPM이 두 번 들어가면 막습니다 — 그래프가 지그재그로 꺾입니다</li><li>곡선 점이 5개 미만이면 <b>직선처럼 보이므로</b> 따로 짚어 줍니다</li><li>kW와 PS를 함께 보여 줘 사양서마다 다른 단위를 그대로 읽을 수 있습니다</li></ul>
+          <div class="tags"><span class="tag">엑셀 DB</span><span class="tag">곡선 그래프</span><span class="tag">엔진 비교</span><span class="tag">오프라인</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project06/" target="_new" rel="noopener noreferrer">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project06" target="_new" rel="noopener noreferrer">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-PROJECT07 · <span class="owner">정광호</span></div>
+          <h3>Field-Insight — 현장 이슈 플랫폼</h3>
+          <p class="lead">현장 사용자가 전문용어 없이 증상을 적으면 AI가 <b>판단을 바꿀 질문 3개 이내</b>로 정형화하고, 전문가가 4필드로 결론을 내려 고객 언어로 회신하는 전체 루프입니다.</p>
+          <ul class="points"><li>상태는 정해진 순서로만 넘어갑니다 — 접수에서 해결로 <b>건너뛸 수 없습니다</b></li><li>확정원인·조치·근거·재발방지 <b>네 칸이 다 차야</b> 결론입니다. 승인 없는 회신은 나가지 않습니다</li><li><b>고객이 해결을 확인한 사례만</b> Knowledge로 쌓입니다 — DB가 직접 막습니다</li></ul>
+          <div class="tags"><span class="tag">멀티롤 웹앱</span><span class="tag">규칙 엔진</span><span class="tag">음성·STT</span><span class="tag">사진/영상</span><span class="tag">회신 루프</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project07/" target="_new" rel="noopener noreferrer">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project07" target="_new" rel="noopener noreferrer">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-PROJECT08 · <span class="owner">홍재영</span></div>
+          <h3>마케팅 업무공유 대시보드 + 회의록 도우미</h3>
+          <p class="lead">캠페인 진행·담당자별 업무·마감 현황을 한 화면에서 <b>서로 보는</b> 팀 대시보드입니다. 회의 메모를 결정/논의/할 일로 정리하는 도우미가 함께 들어 있습니다.</p>
+          <ul class="points"><li>완료로 바꾸면 진행률 100%와 완료시각이 <b>함께 맞춰집니다</b> — 따로 두면 반드시 어긋납니다</li><li>완료된 업무는 기한이 지났어도 <b>지연으로 세지 않습니다</b></li><li>회의에서 나온 할 일이 안 끝나면 목록에 남아, 회의록만 남고 끝나는 것을 막습니다</li></ul>
+          <div class="tags"><span class="tag">팀 대시보드</span><span class="tag">주간 일정</span><span class="tag">회의록</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project08/" target="_new" rel="noopener noreferrer">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project08" target="_new" rel="noopener noreferrer">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-PROJECT09 · <span class="owner">홍재영</span></div>
+          <h3>AMPS 뉴스레터 결과보고 대시보드</h3>
+          <p class="lead">현대·디벨론 <b>브랜드 테마가 자동으로 바뀌는</b> 글로벌 뉴스레터 성과 보고서입니다. 엑셀만 올리면 세계지도·클릭 분석·월별 추이가 채워집니다.</p>
+          <ul class="points"><li>오픈율·클릭율을 저장하지 않고 <b>계산</b>합니다 — 발송수를 고치면 그대로 따라옵니다</li><li>오픈이 도달보다 많은 값은 막습니다 — 엑셀 열이 밀리면 오픈율이 100%를 넘습니다</li><li>지역 합계가 캠페인 합계와 어긋나면 <b>차이를 짚어 줍니다</b></li></ul>
+          <div class="tags"><span class="tag">브랜드 테마</span><span class="tag">세계지도</span><span class="tag">AI 분석</span><span class="tag">엑셀 업로드</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project09/" target="_new" rel="noopener noreferrer">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project09" target="_new" rel="noopener noreferrer">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-PROJECT10 · <span class="owner">홍재영</span></div>
+          <h3>부품 사진 파일명 자동화</h3>
+          <p class="lead">현장 부품 사진의 품번·브랜드를 판독해 <b>연번_품번_(브랜드)</b> 형식으로 일괄 변경합니다. 사진은 브라우저 안에서만 처리되어 밖으로 나가지 않습니다.</p>
+          <ul class="points"><li>최종 파일명을 저장하지 않고 규칙으로 만듭니다 — 품번을 고치면 이름이 따라옵니다</li><li>같은 이름이 두 번 나오면 막습니다 — <b>파일이 덮어써지는 되돌릴 수 없는 사고</b>입니다</li><li>판독이 흔들린 브랜드 표기를 사전에 모아 <b>다음부터 자동으로 바로잡습니다</b></li></ul>
+          <div class="tags"><span class="tag">OCR·AI 비전</span><span class="tag">검수 UI</span><span class="tag">일괄 변경</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project10/" target="_new" rel="noopener noreferrer">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project10" target="_new" rel="noopener noreferrer">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-PROJECT11 · <span class="owner">서지철</span></div>
+          <h3>글로벌 HDPS KPI 자동집계·미달성 메일링</h3>
+          <p class="lead">글로벌 6개 사업장 KPI 원본 엑셀을 올리면 매핑표대로 전사되고, 달성·미달성이 판정되며, 미달성 지표는 <b>담당팀별 사유·만회대책 요청 메일</b>까지 만들어집니다.</p>
+          <ul class="points"><li>행 번호가 아니라 <b>KPI 이름으로</b> 찾아, 원본 서식에서 행이 밀려도 읽힙니다</li><li>환산배율(0.96↔96)·시간 형식·"제외" 같은 텍스트 — <b>매크로가 틀렸던 자리를 전부 테스트로 고정</b>했습니다</li><li>달성률 분모에서 미입력을 뺍니다 — 자료가 늦는 달마다 달성률이 무너져 보이지 않게</li></ul>
+          <div class="tags"><span class="tag">매크로 대체</span><span class="tag">엑셀 자동 전사</span><span class="tag">달성 판정</span><span class="tag">자동 메일링</span><span class="tag">Supabase</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project11/" target="_new" rel="noopener noreferrer">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project11" target="_new" rel="noopener noreferrer">저장소</a></div>
+        </div>
+      </div>
+      <div class="note"><b>11개 프로젝트 모두 각자 클론해 바로 쓸 수 있게 정비했습니다.</b>
+        저장소마다 <code>supabase/schema.sql</code>(테이블·RLS·판정 함수)과
+        <code>scripts/sqltest/run.sh</code>(임시 PostgreSQL 을 띄워 실제로 적용해 보는 검증)이 들어 있습니다.
+        본인 Supabase 프로젝트에 SQL 을 붙여 넣기만 하면 됩니다 — 테이블 이름에 접두사를 붙이지 않았습니다.
+        <br>각 프로젝트는 실제 회사 데이터 없이 기획서 스키마 기반 <b>샘플 데이터</b>로 전체 흐름이 동작하도록 만들어졌습니다.
+        사내 시스템(SAP·MES·Outlook 등) 연동 지점은 어댑터로 분리되어 있으며, 실적용 방법은 각 저장소의 README와 개발일지에 정리되어 있습니다.</div>
+    </section>

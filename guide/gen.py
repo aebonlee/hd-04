@@ -5,7 +5,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from _tpl import page
 
-NAV = {k: open('/tmp/nav_%s.html' % k, encoding='utf-8').read() for k in ('openai','claude','solar','supabase')}
+# 메뉴는 build.py 가 _parts/nav_*.html 로 굽는다. 여기서 또 정의하면 두 곳이 갈린다.
+_PARTS = os.path.join(os.path.dirname(HERE), '_parts')
+NAV = {k: open(os.path.join(_PARTS, 'nav_%s.html' % k), encoding='utf-8').read()
+       for k in ('openai', 'claude', 'solar', 'supabase')}
 
 COMMON_SECURITY = """
 <div class="warn">

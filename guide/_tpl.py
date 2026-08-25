@@ -2,7 +2,10 @@
 # 페이지를 손으로 고치면 다음에 다시 구울 때 날아간다. 내용은 아래 PAGES 를 고칠 것.
 import os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
-STYLE = open('/tmp/shared_style.css', encoding='utf-8').read()
+# 공용 스타일은 _parts/head.html 안의 <style> 하나가 정본이다.
+import re as _re
+_head = open(os.path.join(os.path.dirname(HERE), '_parts', 'head.html'), encoding='utf-8').read()
+STYLE = _re.search(r'<style>(.*?)</style>', _head, _re.S).group(1)
 
 def page(slug, title, desc, nav, body):
     return f"""<!DOCTYPE html>

@@ -277,8 +277,8 @@
     background: var(--accent-soft);
   }
 </style>
-<title>생성형 AI 업무자동화 전문가과정 — 저장소 총정리</title>
-<meta name="description" content="현대건설기계 생성형 AI 업무자동화 전문가과정 1차수의 실습 저장소와 수강생 프로젝트 총정리">
+<title>실습내역 — HD 생성형 AI 업무자동화 전문가과정</title>
+<meta name="description" content="수업 중 Claude Code 로 함께 만든 실습 저장소 hd-01~hd-08">
 </head>
 <body class="hd hd-app">
 
@@ -288,7 +288,7 @@
   <div class="wrap topnav-inner">
     <a class="topnav-brand" href="index.html">HD 과정 총정리</a>
     <ul class="topnav-links">
-      <li><a href="labs.html">실습내역</a></li>
+      <li><a href="labs.html" class="active" aria-current="page">실습내역</a></li>
       <li><a href="projects.html">프로젝트 소개</a></li>
       <li><a href="guide/openai.html">OpenAI API Key</a></li>
       <li><a href="guide/claude.html">Claude API Key</a></li>
@@ -300,58 +300,76 @@
 
 <header class="hero">
   <div class="wrap">
-    <div class="eyebrow">HD 생성형 AI 업무자동화 전문가과정 · 1차수</div>
-    <h1>실습 &amp; 프로젝트 저장소 총정리</h1>
-    <p class="lede">현대건설 생성형 AI 업무자동화 전문가과정에서 Claude Code로 진행한 4일간의 실습 저장소(hd-01~08)와,<br>수강생 기획서를 기반으로 개발한 실전 프로젝트(hd-project01~11)를 한 페이지에 정리했습니다.</p>
-    <div class="stats">
-      <div class="stat"><b>7</b><span>실습 저장소</span></div>
-      <div class="stat"><b>11</b><span>수강생 프로젝트</span></div>
-      <div class="stat"><b>4+2</b><span>실습 4일 + 프로젝트 2일</span></div>
-      <div class="stat"><b>100%</b><span>GitHub Pages 배포</span></div>
-    </div>
+    <div class="eyebrow">수업 중 함께 만든 것</div>
+    <h1>실습내역</h1>
+    <p class="lede">4일간 Claude Code 로 함께 만든 저장소입니다. 정적 웹페이지에서 시작해 Supabase 연동, 실전 대시보드까지 단계별로 쌓아 올렸습니다.</p>
   </div>
 </header>
 
 <div class="wrap">
     <section>
-      <h2>교육 구성</h2>
-      <p class="sec-sub">기초 실습에서 시작해 각자의 실무 문제를 해결하는 프로젝트로 마무리하는 6일 여정입니다.</p>
-      <div class="timeline">
-        <div class="tcard"><div class="day">STEP 1 · 실습</div>
-          <h3>정적 웹페이지 만들기</h3>
-          <p>HTML/CSS로 완성도 있는 랜딩 페이지를 만들고 GitHub Pages로 배포합니다. (hd-01, hd-02)</p></div>
-        <div class="tcard"><div class="day">STEP 2 · 실습</div>
-          <h3>데이터 연동 — Supabase</h3>
-          <p>서버 없이 회원가입·로그인이 되는 웹사이트를 만들며 DB 연동을 익힙니다. (hd-03, hd-08)</p></div>
-        <div class="tcard"><div class="day">STEP 3 · 실습</div>
-          <h3>실전 페이지 &amp; 대시보드</h3>
-          <p>실제 서비스 수준의 페이지 클론과 협업 대시보드를 제작합니다. (hd-05, hd-06, hd-07)</p></div>
-        <div class="tcard"><div class="day">STEP 4 · 프로젝트 (2일)</div>
-          <h3>수강생 프로젝트 개발</h3>
-          <p>각자 작성한 프로젝트 기획서를 Claude Code 작업 지시서로 변환해 실전 프로젝트 10종을 완성합니다.
-             실습을 더 다지고 싶은 수강생을 위한 복습 자료도 함께 제공합니다.</p></div>
-      </div>
-    </section>
-
-    <section>
-      <h2>어디로 갈까요</h2>
-      <p class="sec-sub">과정 산출물은 성격이 둘로 나뉩니다.</p>
+      <h2 id="labs">실습 저장소 <span class="chip green">hd-01 ~ hd-08</span></h2>
+      <p class="sec-sub">교육 중 함께 만든 실습 결과물입니다. 각 저장소의 코드를 열어 구조를 복습할 수 있습니다.</p>
       <div class="cards">
         <div class="card">
-          <div class="no">수업 중 함께 만든 것</div>
-          <h3>실습내역</h3>
-          <p class="lead">4일간 Claude Code 로 함께 만든 저장소 7개입니다.
-            정적 페이지부터 Supabase 연동까지 단계별로 쌓아 올렸습니다.</p>
-          <div class="links"><a class="btn primary" href="labs.html">실습내역 보기</a></div>
+          <div class="no">HD-01</div>
+          <h3>부자인테리어 — 랜딩 페이지</h3>
+          <p class="desc">"공간의 가치를 디자인합니다" — 첫 실습으로 만든 인테리어 회사 소개 정적 페이지. 단일 HTML로 완성한 반응형 랜딩.</p>
+          <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">랜딩 페이지</span></div>
+          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-01/" target="_new" rel="noopener noreferrer">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-01" target="_new" rel="noopener noreferrer">저장소</a></div>
         </div>
         <div class="card">
-          <div class="no">각자 기획해 만든 것</div>
-          <h3>프로젝트 소개</h3>
-          <p class="lead">수강생이 직접 쓴 기획서를 작업 지시서로 옮겨 개발한
-            실전 업무 도구 11종입니다. 각자의 실제 업무 문제를 풀었습니다.</p>
-          <div class="links"><a class="btn blue" href="projects.html">프로젝트 보기</a></div>
+          <div class="no">HD-02</div>
+          <h3>코드월드 — 학습 플랫폼</h3>
+          <p class="desc">프로그래밍 학습 플랫폼 소개 사이트. HTML·CSS·JS 파일을 분리해 구조화하는 방법을 익힌 실습.</p>
+          <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
+          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-02/" target="_new" rel="noopener noreferrer">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-02" target="_new" rel="noopener noreferrer">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-03</div>
+          <h3>회원가입 만들기 실습</h3>
+          <p class="desc">서버 없이 HTML 하나와 Supabase만으로 회원가입·로그인이 되는 웹사이트를 만드는 단계별 실습. 상세한 따라 하기 문서 포함.</p>
+          <div class="tags"><span class="tag">Supabase</span><span class="tag">인증</span><span class="tag">DB 연동</span></div>
+          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-03/" target="_new" rel="noopener noreferrer">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-03" target="_new" rel="noopener noreferrer">저장소</a></div>
+        </div>
+        <div class="card this">
+          <div class="no">HD-04</div>
+          <h3>교육과정 총정리</h3>
+          <p class="desc">이번 과정에서 사용한 모든 실습·프로젝트 저장소를 소개하는 안내 페이지입니다. 지금 보고 계신 곳!</p>
+          <div class="tags"><span class="tag">정적 페이지</span><span class="tag">과정 안내</span></div>
+          <div class="links"><a class="btn" href="https://github.com/aebonlee/hd-04" target="_new" rel="noopener noreferrer">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-05</div>
+          <h3>한결라이프 — 페이지 클론</h3>
+          <p class="desc">실제 서비스 웹사이트를 보고 그대로 재현해 보는 클론 실습. 이미지 자산 관리와 레이아웃 감각을 기른 실습.</p>
+          <div class="tags"><span class="tag">클론 코딩</span><span class="tag">레이아웃</span></div>
+          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-05/" target="_new" rel="noopener noreferrer">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-05" target="_new" rel="noopener noreferrer">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-06</div>
+          <h3>HD 프로젝트 협업 대시보드</h3>
+          <p class="desc">진행 현황·주요 지표·작업 흐름을 한눈에 보여주는 대시보드형 웹 서비스 실습.</p>
+          <div class="tags"><span class="tag">대시보드</span><span class="tag">UI 설계</span></div>
+          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-06/" target="_new" rel="noopener noreferrer">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-06" target="_new" rel="noopener noreferrer">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-07</div>
+          <h3>PROJECT BLUE — 사내 프로젝트 허브</h3>
+          <p class="desc">"함께 만들고, 함께 나누는" 사내 프로젝트 허브 콘셉트 페이지 실습.</p>
+          <div class="tags"><span class="tag">HTML</span><span class="tag">사내 포털</span></div>
+          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-07/" target="_new" rel="noopener noreferrer">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-07" target="_new" rel="noopener noreferrer">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-08</div>
+          <h3>회원가입 연습 (복습)</h3>
+          <p class="desc">hd-03에서 배운 Supabase 회원가입 구조를 스스로 다시 만들어 보는 복습 실습.</p>
+          <div class="tags"><span class="tag">Supabase</span><span class="tag">복습</span></div>
+          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-08/" target="_new" rel="noopener noreferrer">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-08" target="_new" rel="noopener noreferrer">저장소</a></div>
         </div>
       </div>
+      <div class="note">실습 저장소의 "페이지 열기"는 해당 저장소의 GitHub Pages 설정이 켜져 있을 때 동작합니다.
+        열리지 않는 저장소는 Settings → Pages에서 배포 브랜치를 선택하면 됩니다.</div>
     </section>
 
 </div>
