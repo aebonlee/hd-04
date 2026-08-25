@@ -364,6 +364,19 @@
 
 <div class="wrap guide" style="padding-top:var(--sp-5);padding-bottom:var(--sp-5)">
 
+<div class="warn">
+  <b>먼저 알아 둘 것 — 데이터베이스는 「본인 계정」에 만듭니다.</b><br>
+  저장소는 강사 GitHub 에 있지만, Supabase 는 <b>수강생 각자가 자기 계정에</b> 만들어 붙입니다.
+  강사 계정이나 회사 계정에 연결하는 것이 아닙니다. 그래서 —
+  <ul>
+    <li>표 이름에 <b>접두사가 없습니다.</b> 본인 프로젝트라 남과 섞일 일이 없기 때문입니다.</li>
+    <li>어느 저장소에도 <b>접속 정보가 들어 있지 않습니다.</b> 각자 값이 다르기 때문입니다.</li>
+    <li>회사 데이터는 넣지 않습니다. <b>교육용 계정</b>입니다.</li>
+  </ul>
+  프로젝트마다 표 이름·경로가 다르므로, 실제 절차는 저장소 안의
+  <code>SUPABASE-설정.md</code> 를 따라가세요. 이 페이지는 <b>공통 원리</b>를 설명합니다.
+</div>
+
 <h2>왜 필요한가</h2>
 <p>이 과정의 도구들은 기본적으로 <b>내 브라우저에만</b> 자료를 담습니다.
   혼자 쓰는 도구(구매 분석·컨테이너 산출·사진 파일명)는 그것으로 충분합니다.</p>
@@ -398,22 +411,41 @@
   <li>표·정책·함수가 한 번에 만들어집니다. <b>여러 번 실행해도 안전</b>하게 짜여 있습니다.</li>
 </ol>
 <div class="tip">
-  각 저장소의 <code>supabase/README.md</code> 에 그 프로젝트만의 준비 절차(계정 만들기 등)가 더 적혀 있습니다.
+  <b>프로젝트별 상세 절차는 저장소 루트의 <code>SUPABASE-설정.md</code> 에 있습니다</b> —
+  그 프로젝트가 만드는 표 목록, <code>config.js</code> 가 어디 있는지, 로그인 계정이 필요한지까지 적어 두었습니다.
   SQL만 올리고 계정 연결을 빠뜨리면 <b>로그인은 되는데 자료가 하나도 안 보이는</b> 상태가 됩니다.
 </div>
 
 <h2>3. 앱에 연결하기</h2>
 <ol class="steps">
-  <li>Supabase → <b>Settings → API</b> 에서 두 값을 복사합니다.
+  <li>Supabase → <b>Project Settings → API Keys</b> 에서 두 값을 복사합니다.
+    (이전 화면에서는 <b>Settings → API</b> 였습니다 — 보이는 쪽으로 가면 됩니다.)
     <ul>
       <li><b>Project URL</b></li>
-      <li><b>Project API keys → anon / public</b></li>
+      <li><b>anon / public</b> 키 — 최근 만든 프로젝트에서는 <b>publishable</b> 로 표시될 수 있습니다</li>
     </ul>
   </li>
-  <li>저장소의 <code>js/config.js</code> 를 열어 두 값을 붙여 넣고
-    <code>USE_SUPABASE</code> 를 <code>true</code> 로 바꿉니다.</li>
+  <li>저장소의 <code>config.js</code> 를 열어 두 값을 붙여 넣고
+    <code>USE_SUPABASE</code> 를 <code>true</code> 로 바꿉니다.
+    <b>파일 위치는 프로젝트마다 다릅니다</b> — 아래 표를 보세요.</li>
   <li>커밋·푸시하면 배포된 페이지가 서버를 씁니다.</li>
 </ol>
+<table>
+  <thead><tr><th>저장소</th><th>도구</th><th><code>config.js</code> 위치</th></tr></thead>
+  <tbody>
+    <tr><td>hd-project01</td><td>구매 분석</td><td><code>js/config.js</code></td></tr>
+    <tr><td>hd-project02</td><td>결품 응답</td><td><code>taskD_shortage_web/js/config.js</code></td></tr>
+    <tr><td>hd-project03</td><td>재고 실사</td><td><code>js/config.js</code></td></tr>
+    <tr><td>hd-project04</td><td>컨테이너 산출</td><td><code>js/config.js</code></td></tr>
+    <tr><td>hd-project05</td><td>해외영업 포털</td><td><code>js/config.js</code></td></tr>
+    <tr><td>hd-project06</td><td>엔진 사양</td><td><code>js/config.js</code></td></tr>
+    <tr><td>hd-project07</td><td>Field-Insight</td><td><code>app/config.js</code></td></tr>
+    <tr><td>hd-project08</td><td>업무공유</td><td><code>dashboard_marketing/js/config.js</code></td></tr>
+    <tr><td>hd-project09</td><td>뉴스레터</td><td><code>dashboard_newsletter/js/config.js</code></td></tr>
+    <tr><td>hd-project10</td><td>사진 파일명</td><td><code>photo_renamer/js/config.js</code></td></tr>
+    <tr><td>hd-project11</td><td>KPI 자동화</td><td><code>js/config.js</code></td></tr>
+  </tbody>
+</table>
 <div class="tip">
   커밋하지 않고 잠깐 확인만 하려면 주소 뒤에 <code>?supabase=1</code> 을 붙이면 됩니다.
 </div>
