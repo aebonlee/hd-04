@@ -7,8 +7,11 @@ from _tpl import page
 
 # 메뉴는 build.py 가 _parts/nav_*.html 로 굽는다. 여기서 또 정의하면 두 곳이 갈린다.
 _PARTS = os.path.join(os.path.dirname(HERE), '_parts')
-NAV = {k: open(os.path.join(_PARTS, 'nav_%s.html' % k), encoding='utf-8').read()
-       for k in ('openai', 'claude', 'solar', 'supabase')}
+# ⚠ 여기에 키 목록을 손으로 적지 않는다. build.py 가 구운 조각을 **있는 대로** 읽는다.
+#   손으로 적으면 메뉴에 한 장을 더해도 여기에 빠뜨려 그 페이지만 옛 메뉴가 된다.
+import glob as _glob
+NAV = {os.path.basename(f)[4:-5]: open(f, encoding='utf-8').read()
+       for f in _glob.glob(os.path.join(_PARTS, 'nav_*.html'))}
 
 COMMON_SECURITY = """
 <div class="warn">
@@ -218,6 +221,78 @@ PAGES['solar'] = dict(
     <tr><td>401</td><td>키가 틀렸거나 <code>Bearer </code> 접두어 누락</td></tr>
     <tr><td>404 / model not found</td><td>모델 이름이 바뀜 — 콘솔에서 현재 이름 확인</td></tr>
     <tr><td>429</td><td>호출이 너무 잦음 또는 한도 초과</td></tr>
+  </tbody>
+</table>
+""" + BILLING)
+
+# ─────────────────────────────────────────────────────────── Gemini
+PAGES['gemini'] = dict(
+  title="Gemini API Key 발급·사용법",
+  desc="구글 Gemini API 키를 발급받아 도구에 넣는 방법입니다. 무료 한도가 있어 실습에 부담이 적습니다.",
+  body=COMMON_SECURITY + """
+<h2>1. 어디서 발급받나</h2>
+<ol class="steps">
+  <li><a href="https://aistudio.google.com/apikey" target="_new" rel="noopener noreferrer">aistudio.google.com/apikey</a> 에 구글 계정으로 들어갑니다.</li>
+  <li><b>Create API key</b> 를 누릅니다. 구글 클라우드 프로젝트를 고르라고 하면 아무거나 골라도 됩니다
+      (없으면 그 자리에서 만들어 줍니다).</li>
+  <li>만들어진 키를 복사합니다. <b>이 화면을 닫으면 다시 볼 수 없습니다.</b></li>
+</ol>
+<div class="tip">
+  <b>무료 한도가 있습니다.</b> 결제를 등록하지 않아도 하루 일정량까지 쓸 수 있어
+  실습에 부담이 적습니다. 다만 분당 호출 수와 하루 총량에 제한이 있어,
+  많이 부르면 <code>429</code> 가 납니다 — 잠시 뒤 다시 하면 됩니다.
+  (한도 수치는 자주 바뀌므로 <b>콘솔에서 지금 값을 확인</b>하세요)
+</div>
+
+<h2>2. 이 과정의 어디에 쓰나</h2>
+<table>
+  <thead><tr><th>프로젝트</th><th>쓰는 곳</th></tr></thead>
+  <tbody>
+    <tr><td>hd-project07 Field-Insight</td>
+        <td>첨부한 현장 사진·영상을 함께 살펴보는 <b>정밀 분석</b>.
+            키가 없으면 오프라인 규칙 엔진으로 접수만 됩니다</td></tr>
+    <tr><td>hd-project10 부품 사진 파일명</td>
+        <td>사진에서 품번·브랜드를 읽어 내는 판독. 무료 OCR 대신 쓰면 정확도가 올라갑니다</td></tr>
+  </tbody>
+</table>
+
+<h2>3. 직접 호출해 보기</h2>
+<pre><code>curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent" \\
+  -H "x-goog-api-key: $GEMINI_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "contents": [{ "parts": [{ "text": "안녕하세요" }] }]
+  }'</code></pre>
+<div class="tip">
+  <b>키를 헤더로 보냅니다.</b> 주소 뒤에 <code>?key=…</code> 로 붙이는 방법도 되지만,
+  그러면 키가 <b>주소에 남아</b> 브라우저 기록·서버 로그·공유 링크에 그대로 실립니다.
+  헤더로 보내는 쪽을 쓰세요.
+</div>
+
+<h2>4. 사진을 함께 보내기</h2>
+<p>현장 사진을 읽히려면 이미지를 <b>base64 로 바꿔</b> 같이 보냅니다.</p>
+<pre><code>{
+  "contents": [{
+    "parts": [
+      { "text": "이 사진에서 부품 품번을 읽어 주세요." },
+      { "inline_data": { "mime_type": "image/jpeg", "data": "&lt;base64 문자열&gt;" } }
+    ]
+  }]
+}</code></pre>
+<div class="warn">
+  <b>현장 사진에는 사업장·설비가 찍힙니다.</b> 외부 API 로 보내는 것이므로
+  사내 규정에 맞는지 먼저 확인하세요. 확인 전에는 키를 넣지 말고
+  오프라인 규칙 엔진으로 쓰면 됩니다 — 접수 자체는 그대로 됩니다.
+</div>
+
+<h2>5. 안 될 때</h2>
+<table>
+  <thead><tr><th>증상</th><th>원인</th></tr></thead>
+  <tbody>
+    <tr><td>400 API_KEY_INVALID</td><td>키가 틀렸거나 앞뒤에 공백이 붙음</td></tr>
+    <tr><td>403</td><td>그 프로젝트에서 Generative Language API 가 꺼져 있음 — 콘솔에서 사용 설정</td></tr>
+    <tr><td>404 model not found</td><td>모델 이름이 바뀜 — AI Studio 에서 현재 이름 확인</td></tr>
+    <tr><td>429</td><td>무료 한도(분당·하루)를 넘김. 잠시 뒤 다시 하거나 결제 등록</td></tr>
   </tbody>
 </table>
 """ + BILLING)

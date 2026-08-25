@@ -2,7 +2,9 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemini API Key 발급·사용법 — HD 생성형 AI 업무자동화 전문가과정</title>
+<meta name="description" content="구글 Gemini API 키를 발급받아 도구에 넣는 방법입니다. 무료 한도가 있어 실습에 부담이 적습니다.">
 <style>
   :root {
     --page:#f7f8f7; --surface:#fdfdfc; --ink:#101210; --ink2:#4c514c; --muted:#878d87;
@@ -121,8 +123,7 @@
   footer { border-top:1px solid var(--grid); padding:26px 0 40px; color:var(--muted); font-size:13px; }
   footer .wrap { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
 </style>
-<!-- 공통 디자인 시스템. 인라인 <style> 뒤에 와야 이긴다 (순서=우선순위) -->
-<link rel="stylesheet" href="css/hd-theme.css">
+<link rel="stylesheet" href="../css/hd-theme.css">
 <style>
   /* ⚠ 반드시 hd-theme.css 뒤에 온다. 앞에 두면 테마의 auto-fit 이 이겨
      화면 폭에 따라 열 수가 제멋대로 바뀐다. */
@@ -304,133 +305,188 @@
     background: var(--accent-soft);
   }
 </style>
-<title>실습내역 — HD 생성형 AI 업무자동화 전문가과정</title>
-<meta name="description" content="수업 중 Claude Code 로 함께 만든 실습 저장소 hd-01~hd-08">
+<style>
+  /* 안내 페이지에만 필요한 것. 메뉴·카드 등 공통 규칙은
+     _parts/head.html 이 정본이라 여기에 다시 적지 않는다. */
+  /* 폭·제목·목록 간격은 공통 테마의 세로 리듬이 잡는다.
+     여기서 또 정하면 값이 두 곳으로 갈려 다음 사람이 어디를 고쳐야 할지 모른다. */
+  .guide pre { font-size: 12.5px; }
+  /* 안내 띠 — 위아래 간격은 테마(--sp-3)가 잡으므로 색과 안쪽 여백만 정한다 */
+  .guide .warn {
+    border-left: 4px solid #c8341f; background: #fdeae7; color: #7a1a0c;
+    padding: 16px 18px; border-radius: 8px; font-size: 14px; line-height: 1.75;
+  }
+  .guide .tip {
+    border-left: 4px solid #0a6b34; background: #f0f7f2; color: #08422a;
+    padding: 16px 18px; border-radius: 8px; font-size: 14px; line-height: 1.75;
+  }
+  .guide .warn > :last-child, .guide .tip > :last-child { margin-bottom: 0; }
+  .guide table { font-size: 13.5px; }
+  .steps { counter-reset: s; list-style: none; padding-left: 0; }
+  /* 번호 단계는 한 항목이 여러 줄이라 일반 목록(8px)보다 벌려야 경계가 보인다.
+     테마의 `.hd.hd-app li` 가 (0,2,1) 이므로 여기도 그만큼 올려야 이긴다. */
+  .hd.hd-app .steps > li {
+    counter-increment: s; position: relative; padding-left: 38px;
+    margin-bottom: var(--sp-3);
+  }
+  .hd.hd-app .steps > li:last-child { margin-bottom: 0; }
+  .hd.hd-app .steps { margin-bottom: var(--sp-3); }
+  .hd.hd-app .steps > li::before {
+    content: counter(s); position: absolute; left: 0; top: 1px;
+    width: 25px; height: 25px; border-radius: 50%; background: var(--accent); color: #fff;
+    font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+  }
+</style>
 <!-- === HD:META:BEGIN (자동 생성 — scripts 로 다시 굽습니다) === -->
 <link rel="icon" href="https://aebonlee.github.io/hd-04/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="https://aebonlee.github.io/hd-04/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="https://aebonlee.github.io/hd-04/apple-touch-icon.png">
-<link rel="canonical" href="https://aebonlee.github.io/hd-04/labs.html">
+<link rel="canonical" href="https://aebonlee.github.io/hd-04/guide/gemini.html">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="HD 생성형 AI 업무자동화 전문가과정">
-<meta property="og:url" content="https://aebonlee.github.io/hd-04/labs.html">
-<meta property="og:title" content="실습내역 — 수업 중 함께 만든 것 — HD 생성형 AI 업무자동화 전문가과정">
-<meta property="og:description" content="정적 웹페이지에서 시작해 Supabase 연동, 실전 대시보드까지 단계별로 쌓아 올린 4일간의 실습 저장소.">
-<meta property="og:image" content="https://aebonlee.github.io/hd-04/og-labs.png">
+<meta property="og:url" content="https://aebonlee.github.io/hd-04/guide/gemini.html">
+<meta property="og:title" content="Gemini API Key 발급·사용법 — HD 생성형 AI 업무자동화 전문가과정">
+<meta property="og:description" content="구글 AI Studio 에서 키를 받아 실습에 연결하는 방법. 무료 한도가 있어 부담이 적습니다.">
+<meta property="og:image" content="https://aebonlee.github.io/hd-04/guide/og-gemini.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="실습내역 — 수업 중 함께 만든 것 — HD 생성형 AI 업무자동화 전문가과정">
-<meta name="twitter:description" content="정적 웹페이지에서 시작해 Supabase 연동, 실전 대시보드까지 단계별로 쌓아 올린 4일간의 실습 저장소.">
-<meta name="twitter:image" content="https://aebonlee.github.io/hd-04/og-labs.png">
+<meta name="twitter:title" content="Gemini API Key 발급·사용법 — HD 생성형 AI 업무자동화 전문가과정">
+<meta name="twitter:description" content="구글 AI Studio 에서 키를 받아 실습에 연결하는 방법. 무료 한도가 있어 부담이 적습니다.">
+<meta name="twitter:image" content="https://aebonlee.github.io/hd-04/guide/og-gemini.png">
 <!-- === HD:META:END === -->
 </head>
 <body class="hd hd-app">
 
-
-
 <nav class="topnav" aria-label="주요 메뉴">
   <div class="wrap topnav-inner">
-    <a class="topnav-brand" href="index.html">HD 과정 총정리</a>
+    <a class="topnav-brand" href="../index.html">HD 과정 총정리</a>
     <ul class="topnav-links">
-      <li><a href="labs.html" class="active" aria-current="page">실습내역</a></li>
-      <li><a href="projects.html">프로젝트 소개</a></li>
-      <li><a href="guide/openai.html">OpenAI API Key</a></li>
-      <li><a href="guide/claude.html">Claude API Key</a></li>
-      <li><a href="guide/solar.html">Solar API Key</a></li>
-      <li><a href="guide/gemini.html">Gemini API Key</a></li>
-      <li><a href="guide/supabase.html">Supabase 사용법</a></li>
+      <li><a href="../labs.html">실습내역</a></li>
+      <li><a href="../projects.html">프로젝트 소개</a></li>
+      <li><a href="../guide/openai.html">OpenAI API Key</a></li>
+      <li><a href="../guide/claude.html">Claude API Key</a></li>
+      <li><a href="../guide/solar.html">Solar API Key</a></li>
+      <li><a href="../guide/gemini.html" class="active" aria-current="page">Gemini API Key</a></li>
+      <li><a href="../guide/supabase.html">Supabase 사용법</a></li>
     </ul>
   </div>
 </nav>
 
 <header class="hero">
   <div class="wrap">
-    <div class="eyebrow">수업 중 함께 만든 것</div>
-    <h1>실습내역</h1>
-    <p class="lede">4일간 Claude Code 로 함께 만든 저장소입니다. 정적 웹페이지에서 시작해 Supabase 연동, 실전 대시보드까지 단계별로 쌓아 올렸습니다.</p>
+    <div class="eyebrow">사용 안내</div>
+    <h1>Gemini API Key 발급·사용법</h1>
+    <p class="lede">구글 Gemini API 키를 발급받아 도구에 넣는 방법입니다. 무료 한도가 있어 실습에 부담이 적습니다.</p>
   </div>
 </header>
 
-<main>
-<div class="wrap">
-    <section>
-      <h2 id="labs">실습 저장소 <span class="chip green">hd-01 ~ hd-08</span></h2>
-      <p class="sec-sub">교육 중 함께 만든 실습 결과물입니다. 각 저장소의 코드를 열어 구조를 복습할 수 있습니다.</p>
-      <div class="cards">
-        <div class="card">
-          <div class="no">HD-01</div>
-          <h3>부자인테리어 — 랜딩 페이지</h3>
-          <p class="desc">"공간의 가치를 디자인합니다" — 첫 실습으로 만든 인테리어 회사 소개 정적 페이지. 단일 HTML로 완성한 반응형 랜딩.</p>
-          <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">랜딩 페이지</span></div>
-          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-01/" target="_new" rel="noopener noreferrer">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-01" target="_new" rel="noopener noreferrer">저장소</a></div>
-        </div>
-        <div class="card">
-          <div class="no">HD-02</div>
-          <h3>코드월드 — 학습 플랫폼</h3>
-          <p class="desc">프로그래밍 학습 플랫폼 소개 사이트. HTML·CSS·JS 파일을 분리해 구조화하는 방법을 익힌 실습.</p>
-          <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
-          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-02/" target="_new" rel="noopener noreferrer">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-02" target="_new" rel="noopener noreferrer">저장소</a></div>
-        </div>
-        <div class="card">
-          <div class="no">HD-03</div>
-          <h3>회원가입 만들기 실습</h3>
-          <p class="desc">서버 없이 HTML 하나와 Supabase만으로 회원가입·로그인이 되는 웹사이트를 만드는 단계별 실습. 상세한 따라 하기 문서 포함.</p>
-          <div class="tags"><span class="tag">Supabase</span><span class="tag">인증</span><span class="tag">DB 연동</span></div>
-          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-03/" target="_new" rel="noopener noreferrer">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-03" target="_new" rel="noopener noreferrer">저장소</a></div>
-        </div>
-        <div class="card this">
-          <div class="no">HD-04</div>
-          <h3>교육과정 총정리</h3>
-          <p class="desc">이번 과정에서 사용한 모든 실습·프로젝트 저장소를 소개하는 안내 페이지입니다. 지금 보고 계신 곳!</p>
-          <div class="tags"><span class="tag">정적 페이지</span><span class="tag">과정 안내</span></div>
-          <div class="links"><a class="btn" href="https://github.com/aebonlee/hd-04" target="_new" rel="noopener noreferrer">저장소</a></div>
-        </div>
-        <div class="card">
-          <div class="no">HD-05</div>
-          <h3>한결라이프 — 페이지 클론</h3>
-          <p class="desc">실제 서비스 웹사이트를 보고 그대로 재현해 보는 클론 실습. 이미지 자산 관리와 레이아웃 감각을 기른 실습.</p>
-          <div class="tags"><span class="tag">클론 코딩</span><span class="tag">레이아웃</span></div>
-          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-05/" target="_new" rel="noopener noreferrer">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-05" target="_new" rel="noopener noreferrer">저장소</a></div>
-        </div>
-        <div class="card">
-          <div class="no">HD-06</div>
-          <h3>HD 프로젝트 협업 대시보드</h3>
-          <p class="desc">진행 현황·주요 지표·작업 흐름을 한눈에 보여주는 대시보드형 웹 서비스 실습.</p>
-          <div class="tags"><span class="tag">대시보드</span><span class="tag">UI 설계</span></div>
-          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-06/" target="_new" rel="noopener noreferrer">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-06" target="_new" rel="noopener noreferrer">저장소</a></div>
-        </div>
-        <div class="card">
-          <div class="no">HD-07</div>
-          <h3>PROJECT BLUE — 사내 프로젝트 허브</h3>
-          <p class="desc">"함께 만들고, 함께 나누는" 사내 프로젝트 허브 콘셉트 페이지 실습.</p>
-          <div class="tags"><span class="tag">HTML</span><span class="tag">사내 포털</span></div>
-          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-07/" target="_new" rel="noopener noreferrer">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-07" target="_new" rel="noopener noreferrer">저장소</a></div>
-        </div>
-        <div class="card">
-          <div class="no">HD-08</div>
-          <h3>회원가입 연습 (복습)</h3>
-          <p class="desc">hd-03에서 배운 Supabase 회원가입 구조를 스스로 다시 만들어 보는 복습 실습.</p>
-          <div class="tags"><span class="tag">Supabase</span><span class="tag">복습</span></div>
-          <div class="links"><a class="btn primary" href="https://aebonlee.github.io/hd-08/" target="_new" rel="noopener noreferrer">페이지 열기</a><a class="btn" href="https://github.com/aebonlee/hd-08" target="_new" rel="noopener noreferrer">저장소</a></div>
-        </div>
-      </div>
-      <div class="note">실습 저장소의 "페이지 열기"는 해당 저장소의 GitHub Pages 설정이 켜져 있을 때 동작합니다.
-        열리지 않는 저장소는 Settings → Pages에서 배포 브랜치를 선택하면 됩니다.</div>
-    </section>
+<div class="wrap guide" style="padding-top:var(--sp-5);padding-bottom:var(--sp-5)">
 
+<div class="warn">
+  <b>가장 먼저 알아야 할 것 — 브라우저에 넣은 키는 숨겨지지 않습니다.</b><br>
+  이 과정의 도구들은 서버 없이 브라우저에서 도는 정적 페이지입니다.
+  키를 화면에 입력하면 그 키는 <b>내 브라우저 안에만</b> 있고 남에게 전송되지는 않지만,
+  같은 PC를 쓰는 사람이 개발자도구로 꺼내 볼 수 있습니다.
+  <b>공용 PC에서는 쓰고 나서 반드시 키를 지우세요.</b>
 </div>
-</main>
 
-<footer>
+<div class="warn">
+  <b>키를 GitHub에 올리지 마세요.</b><br>
+  코드 파일이나 <code>config.js</code>에 키를 적어 커밋하면 공개 저장소에서 누구나 봅니다.
+  올라간 키는 <b>지워도 커밋 기록에 남습니다.</b> 실수로 올렸다면 그 키를 즉시 폐기하고 새로 발급하세요.
+  각 회사 콘솔에서 키를 지우면 그 순간부터 못 씁니다.
+</div>
+
+<h2>1. 어디서 발급받나</h2>
+<ol class="steps">
+  <li><a href="https://aistudio.google.com/apikey" target="_new" rel="noopener noreferrer">aistudio.google.com/apikey</a> 에 구글 계정으로 들어갑니다.</li>
+  <li><b>Create API key</b> 를 누릅니다. 구글 클라우드 프로젝트를 고르라고 하면 아무거나 골라도 됩니다
+      (없으면 그 자리에서 만들어 줍니다).</li>
+  <li>만들어진 키를 복사합니다. <b>이 화면을 닫으면 다시 볼 수 없습니다.</b></li>
+</ol>
+<div class="tip">
+  <b>무료 한도가 있습니다.</b> 결제를 등록하지 않아도 하루 일정량까지 쓸 수 있어
+  실습에 부담이 적습니다. 다만 분당 호출 수와 하루 총량에 제한이 있어,
+  많이 부르면 <code>429</code> 가 납니다 — 잠시 뒤 다시 하면 됩니다.
+  (한도 수치는 자주 바뀌므로 <b>콘솔에서 지금 값을 확인</b>하세요)
+</div>
+
+<h2>2. 이 과정의 어디에 쓰나</h2>
+<table>
+  <thead><tr><th>프로젝트</th><th>쓰는 곳</th></tr></thead>
+  <tbody>
+    <tr><td>hd-project07 Field-Insight</td>
+        <td>첨부한 현장 사진·영상을 함께 살펴보는 <b>정밀 분석</b>.
+            키가 없으면 오프라인 규칙 엔진으로 접수만 됩니다</td></tr>
+    <tr><td>hd-project10 부품 사진 파일명</td>
+        <td>사진에서 품번·브랜드를 읽어 내는 판독. 무료 OCR 대신 쓰면 정확도가 올라갑니다</td></tr>
+  </tbody>
+</table>
+
+<h2>3. 직접 호출해 보기</h2>
+<pre><code>curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent" \
+  -H "x-goog-api-key: $GEMINI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "contents": [{ "parts": [{ "text": "안녕하세요" }] }]
+  }'</code></pre>
+<div class="tip">
+  <b>키를 헤더로 보냅니다.</b> 주소 뒤에 <code>?key=…</code> 로 붙이는 방법도 되지만,
+  그러면 키가 <b>주소에 남아</b> 브라우저 기록·서버 로그·공유 링크에 그대로 실립니다.
+  헤더로 보내는 쪽을 쓰세요.
+</div>
+
+<h2>4. 사진을 함께 보내기</h2>
+<p>현장 사진을 읽히려면 이미지를 <b>base64 로 바꿔</b> 같이 보냅니다.</p>
+<pre><code>{
+  "contents": [{
+    "parts": [
+      { "text": "이 사진에서 부품 품번을 읽어 주세요." },
+      { "inline_data": { "mime_type": "image/jpeg", "data": "&lt;base64 문자열&gt;" } }
+    ]
+  }]
+}</code></pre>
+<div class="warn">
+  <b>현장 사진에는 사업장·설비가 찍힙니다.</b> 외부 API 로 보내는 것이므로
+  사내 규정에 맞는지 먼저 확인하세요. 확인 전에는 키를 넣지 말고
+  오프라인 규칙 엔진으로 쓰면 됩니다 — 접수 자체는 그대로 됩니다.
+</div>
+
+<h2>5. 안 될 때</h2>
+<table>
+  <thead><tr><th>증상</th><th>원인</th></tr></thead>
+  <tbody>
+    <tr><td>400 API_KEY_INVALID</td><td>키가 틀렸거나 앞뒤에 공백이 붙음</td></tr>
+    <tr><td>403</td><td>그 프로젝트에서 Generative Language API 가 꺼져 있음 — 콘솔에서 사용 설정</td></tr>
+    <tr><td>404 model not found</td><td>모델 이름이 바뀜 — AI Studio 에서 현재 이름 확인</td></tr>
+    <tr><td>429</td><td>무료 한도(분당·하루)를 넘김. 잠시 뒤 다시 하거나 결제 등록</td></tr>
+  </tbody>
+</table>
+
+<h2>돈이 새지 않게 하는 법</h2>
+<p>API는 쓴 만큼 돈이 나갑니다. 처음 쓰는 사람이 가장 많이 겪는 사고는
+  <b>테스트하다 반복 호출을 걸어 두고 잊는 것</b>입니다.</p>
+<ul>
+  <li><b>사용 한도(limit)를 먼저 걸어 두세요.</b> 콘솔의 결제·한도 화면에서 월 상한을 정할 수 있습니다.
+    한도를 걸면 넘어갈 때 호출이 막혀 요금이 더 안 늘어납니다.</li>
+  <li><b>키를 용도별로 나누세요.</b> 실습용 키 하나, 실제 업무용 키 하나.
+    실습용이 새면 그것만 폐기하면 됩니다.</li>
+  <li><b>가격은 자주 바뀝니다.</b> 여기 숫자를 적지 않은 이유입니다.
+    각 사의 공식 가격 페이지에서 확인하세요.</li>
+</ul>
+
+  <p style="margin:var(--sp-5) 0 0"><a href="../index.html">← 저장소 총정리로 돌아가기</a></p>
+</div>
+
+<footer class="foot">
   <div class="wrap">
-    <div>HD 생성형 AI 업무자동화 전문가과정 · 1차수 — 실습·프로젝트 총정리</div>
-    <div><a href="https://github.com/aebonlee" target="_new" rel="noopener noreferrer">github.com/aebonlee</a></div>
+    <p>HD 생성형 AI 업무자동화 전문가과정 1차수 · 현대건설기계</p>
+    <p class="small">문의 dreamitbiz@naver.com · 010-2612-4256 · 카카오톡 aebon</p>
   </div>
 </footer>
 
 </body>
 </html>
-

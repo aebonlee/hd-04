@@ -21,6 +21,7 @@ MENU = [
     ('openai',   'OpenAI API Key',  'guide/openai.html'),
     ('claude',   'Claude API Key',  'guide/claude.html'),
     ('solar',    'Solar API Key',   'guide/solar.html'),
+    ('gemini',   'Gemini API Key',  'guide/gemini.html'),
     ('supabase', 'Supabase 사용법',  'guide/supabase.html'),
 ]
 
