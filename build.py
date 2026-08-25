@@ -52,6 +52,15 @@ def hero(eyebrow, title, lede, stats_html=''):
     )
 
 def page(path, title, desc, active, hero_html, body, root=''):
+    """페이지 하나를 굽는다.
+
+    ⚠ 본문은 반드시 `<main>` 안에 넣는다. `<div>` 로 바꾸면 안 된다.
+      위아래 여백이 `main { padding:44px 0 30px }` 한 곳에만 있어서,
+      main 이 없으면 **히어로와 첫 제목이 붙어 버린다.**
+      가로 여백은 `.wrap { padding:0 24px }` 가 따로 맡는다 — 둘을 한
+      요소에 겹치면 `.wrap` 의 단축 속성이 세로 여백을 0 으로 되돌린다.
+      (실제로 조각으로 쪼개면서 <main> 을 빠뜨려 세 페이지가 다 붙었다)
+    """
     # 하위 폴더면 상대 경로를 한 단계 올린다
     head = HEAD.replace('href="css/', f'href="{root}css/') if root else HEAD
     html = f"""{head}<title>{title}</title>
@@ -62,9 +71,11 @@ def page(path, title, desc, active, hero_html, body, root=''):
 
 {hero_html}
 
+<main>
 <div class="wrap">
 {body}
 </div>
+</main>
 
 {FOOT}
 """

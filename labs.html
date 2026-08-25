@@ -75,6 +75,8 @@
 
   main { padding:44px 0 30px; }
   section { margin-bottom:52px; }
+  /* 마지막 섹션은 아래 여백을 main 의 padding 이 이미 준다 — 겹치면 82px 이 된다 */
+  main > .wrap > section:last-child { margin-bottom:0; }
   h2 { font-size:21px; margin:0 0 6px; font-weight:800; }
   .sec-sub { color:var(--ink2); margin:0 0 22px; font-size:14px; }
   h2 .chip { display:inline-block; font-size:11px; font-weight:700; vertical-align:3px;
@@ -130,6 +132,31 @@
      메뉴의 <a> 에는 클래스가 없어서 테마의 `a:not([class])` 규칙에 걸린다.
      그쪽이 강조색(#14385f)을 주는데, 메뉴 배경이 같은 계열 남색이라
      대비 1.24 가 되어 글자가 배경에 묻혔다. 앞에 두면 다시 묻힌다. */
+  /* ── 로고와 메뉴를 같은 가운데선에 ──────────────────────────────────
+     ⚠ 이 규칙도 **반드시 hd-theme.css 뒤에** 있어야 한다.
+     메뉴가 <ul><li> 로 짜여 있어서 테마의 본문 목록 규칙에 그대로 걸렸다.
+       .hd.hd-app ul { margin:0 0 14px; padding-left:22px }
+       .hd.hd-app li { margin-bottom:8px }
+     `.topnav-links { margin:0 }` 는 특정도가 (0,1,0) 이라 (0,2,0) 인 테마에
+     진다. 그래서 ul 아래에 14px 여백이 붙어 메뉴 줄이 통째로 위로 밀렸고,
+     li 의 8px 이 더해져 **링크 글자가 로고보다 12px 높이 떠 있었다.**
+     막는 방법은 특정도를 올리는 것뿐이다 — 클래스를 하나 더 얹는다. */
+  /* 로고도 링크와 똑같은 높이의 상자로 세운다.
+     글자 크기가 서로 달라(로고 14.5 / 링크 13.5) 줄 상자만으로는 가운데선이
+     미세하게 어긋나고, 560px 이하에서는 로고가 font-size:0 + ::before 로
+     바뀌면서 6px 까지 벌어졌다. 두 쪽 모두 같은 높이의 flex 상자로 만들면
+     가운데선이 계산으로 맞는다. */
+  .hd.hd-app .topnav-brand { display: flex; align-items: center; min-height: 56px; }
+  .hd.hd-app .topnav-links { margin: 0; padding: 0; list-style: none; }
+  .hd.hd-app .topnav-links li { margin: 0; padding: 0; }
+  .hd.hd-app .topnav-links li::marker { content: none; }
+  /* 링크 자체가 줄 높이를 만든다 — 로고는 inner 의 align-items:center 가 맞춘다 */
+  .hd.hd-app .topnav-links a { display: flex; align-items: center; min-height: 56px; }
+  @media (max-width: 860px) {
+    .hd.hd-app .topnav-links a,
+    .hd.hd-app .topnav-brand { min-height: 52px; }
+  }
+
   .hd.hd-app .topnav-links a,
   .hd.hd-app .topnav-links a:visited { color: rgba(255, 255, 255, .82); }   /* 대비 10.3 */
   .hd.hd-app .topnav-links a:hover   { color: #ffffff; }
@@ -306,6 +333,7 @@
   </div>
 </header>
 
+<main>
 <div class="wrap">
     <section>
       <h2 id="labs">실습 저장소 <span class="chip green">hd-01 ~ hd-08</span></h2>
@@ -373,6 +401,7 @@
     </section>
 
 </div>
+</main>
 
 <footer>
   <div class="wrap">

@@ -2,10 +2,28 @@
 # 페이지를 손으로 고치면 다음에 다시 구울 때 날아간다. 내용은 아래 PAGES 를 고칠 것.
 import os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
-# 공용 스타일은 _parts/head.html 안의 <style> 하나가 정본이다.
+# 공용 스타일의 정본은 _parts/head.html 이다.
+#
+# ⚠ 그 파일에는 <style> 이 **두 덩이** 있고 순서에 뜻이 있다.
+#     1) hd-theme.css **앞**  — 이 사이트의 기본 뼈대
+#     2) hd-theme.css **뒤**  — 테마에 지는 것을 되돌리는 규칙
+#   앞의 것만 가져오면 2)가 통째로 빠진다. 실제로 그렇게 되어 있어서
+#   안내 페이지만 메뉴 세로 정렬이 12px 어긋나 있었다.
+#   (예전에는 2)를 여기에 손으로 베껴 뒀는데, 한쪽만 고쳐져 갈라졌다.
+#    베끼지 말고 읽어 올 것 — 두 곳에 같은 규칙을 두면 반드시 어긋난다.)
 import re as _re
 _head = open(os.path.join(os.path.dirname(HERE), '_parts', 'head.html'), encoding='utf-8').read()
-STYLE = _re.search(r'<style>(.*?)</style>', _head, _re.S).group(1)
+# ⚠ 주석을 먼저 걷어낸다. head.html 의 HTML 주석 안에 `<style>` 이라는 **글자**가
+#   들어 있어서, 그냥 찾으면 정규식이 거기서부터 뜬다. 그러면 두 번째 덩이가
+#   `--> <link ...> <style>` 로 시작하는 쓰레기가 되고, 그 글자를 CSS 로 읽던
+#   브라우저가 오류 복구를 하면서 **뒤따르는 규칙 몇 개를 통째로 삼킨다.**
+#   눈에는 "왜 이 규칙만 안 먹지"로만 보인다. 실제로 그래서 메뉴 ul 여백이 남았다.
+_clean = _re.sub(r'<!--.*?-->', '', _head, flags=_re.S)
+_blocks = _re.findall(r'<style>(.*?)</style>', _clean, _re.S)
+assert len(_blocks) == 2, '_parts/head.html 의 <style> 이 %d 덩이다 — 순서를 다시 확인할 것' % len(_blocks)
+for _b in _blocks:
+    assert '<style' not in _b and '<link' not in _b, 'CSS 안에 태그가 섞였다 — 주석 제거가 안 먹었다'
+STYLE, STYLE_AFTER = _blocks[0], _blocks[1]
 
 def page(slug, title, desc, nav, body):
     return f"""<!DOCTYPE html>
@@ -17,18 +35,10 @@ def page(slug, title, desc, nav, body):
 <meta name="description" content="{desc}">
 <style>{STYLE}</style>
 <link rel="stylesheet" href="../css/hd-theme.css">
+<style>{STYLE_AFTER}</style>
 <style>
-  /* ⚠ hd-theme.css 뒤에 와야 한다 — 메뉴의 <a> 에는 클래스가 없어
-     테마의 a:not([class]) 규칙이 강조색을 주고, 그 색이 메뉴 배경과 같은 계열이라
-     대비 1.24 로 글자가 묻힌다. */
-  .hd.hd-app .topnav-links a,
-  .hd.hd-app .topnav-links a:visited {{ color: rgba(255, 255, 255, .82); }}
-  .hd.hd-app .topnav-links a:hover   {{ color: #ffffff; }}
-  .hd.hd-app .topnav-links a.active  {{ color: #ffffff; border-bottom-color: #7ec8a0; }}
-  .hd.hd-app .topnav-brand,
-  .hd.hd-app .topnav-brand:visited   {{ color: #ffffff; }}
-  .hd.hd-app .topnav-brand:hover     {{ color: #cfe0ee; }}
-
+  /* 안내 페이지에만 필요한 것. 메뉴·카드 등 공통 규칙은
+     _parts/head.html 이 정본이라 여기에 다시 적지 않는다. */
   /* 폭·제목·목록 간격은 공통 테마의 세로 리듬이 잡는다.
      여기서 또 정하면 값이 두 곳으로 갈려 다음 사람이 어디를 고쳐야 할지 모른다. */
   .guide pre {{ font-size: 12.5px; }}
