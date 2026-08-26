@@ -239,6 +239,23 @@ for name in re.findall(r"P\('([a-z_]+)'\)", build_src):
            'build.py — _parts/%s.html 을 읽었으면 실제로 쓴다' % name)
 
 
+# 하단 안내가 "저장소마다 supabase/schema.sql 이 들어 있습니다" 라고 단언하고 있었다.
+# 카드를 두 장 더하자 거짓이 됐다 — 13·14 는 DB 를 쓰지 않는다.
+# 몇 곳인지 숫자를 적었으면 그 숫자가 카드 수와 다른지 확인할 수 있어야 한다.
+m = re.search(r'<b>(\d+)개</b>\s*저장소에는\s*<code>supabase', projects)
+ok(m is not None, '하단 안내가 Supabase 저장소 수를 숫자로 적는다',
+   '"저장소마다" 처럼 전부라고 단언하면 예외가 생겼을 때 거짓이 된다')
+if m:
+    ok(int(m.group(1)) <= project_cards,
+       'Supabase 저장소 수가 전체 카드 수를 넘지 않는다',
+       '%s > %s' % (m.group(1), project_cards))
+    ok(int(m.group(1)) < project_cards,
+       '전부가 아니라면 예외를 따로 밝힌다',
+       '전부라면 "저장소마다" 로 쓰는 편이 낫다')
+    ok('데이터베이스가 필요 없습니다' in projects,
+       'DB 를 쓰지 않는 저장소가 어느 것인지 밝힌다')
+
+
 # ─────────────────────────────────────────── 5. 프로젝트 카드
 group('5. 프로젝트 카드 — 번호와 링크가 서로 맞는가')
 
