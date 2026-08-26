@@ -3,7 +3,9 @@
 import sys, os
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
+sys.path.insert(0, os.path.dirname(HERE))   # metablock.py 는 저장소 뿌리에 있다
 from _tpl import page
+from metablock import preserve
 
 # 메뉴는 build.py 가 _parts/nav_*.html 로 굽는다. 여기서 또 정의하면 두 곳이 갈린다.
 _PARTS = os.path.join(os.path.dirname(HERE), '_parts')
@@ -428,7 +430,10 @@ PAGES['supabase'] = dict(
 """)
 
 for slug, d in PAGES.items():
+    out = os.path.join(HERE, slug + '.html')
     html = page(slug, d['title'], d['desc'], NAV[slug], d['body'])
-    with open(os.path.join(HERE, slug + '.html'), 'w', encoding='utf-8') as f:
+    # 저장소 밖 스크립트가 넣어 둔 HD:META 블록을 되돌려 넣는다 (metablock.py 주석 참조).
+    html = preserve(out, html)
+    with open(out, 'w', encoding='utf-8') as f:
         f.write(html)
     print('생성:', slug + '.html', len(html), '자')

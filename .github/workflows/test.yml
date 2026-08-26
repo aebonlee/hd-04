@@ -1,0 +1,41 @@
+# 사이트 검사 — main 브랜치 보호의 "필수 상태 체크"로 걸 수 있게 만든 것.
+#
+# 이 저장소는 손으로 쓴 페이지가 아니라 구워 내는 페이지다.
+# 그래서 검사도 두 갈래다.
+#   · tests/check_site.py    — 다시 구워도 같은가, 숫자·링크가 서로 맞는가
+#   · tests/check_browser.js — 대비·여백·정렬을 브라우저에서 실제로 잰다
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 표준 라이브러리만 쓴다 — 이 저장소에는 빌드 도구가 없다.
+      - name: 사이트 검사 (생성 결정성 · 숫자 · 링크)
+        run: python3 tests/check_site.py
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # 이 저장소가 깨진 방식은 거의 전부 CSS 였다. 파일을 읽어서는 안 잡힌다.
+      - name: 화면 검사 (대비 · 여백 · 정렬)
+        run: |
+          npm install --no-save playwright@latest
+          npx playwright install --with-deps chromium
+          node tests/check_browser.js
