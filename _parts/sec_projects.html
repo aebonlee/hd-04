@@ -1,5 +1,5 @@
     <section>
-      <h2 id="projects">수강생 프로젝트 <span class="chip blue">hd-project01 ~ hd-project12</span></h2>
+      <h2 id="projects">수강생 프로젝트 <span class="chip blue">hd-project01~12 · 17</span></h2>
       <p class="sec-sub">수강생이 직접 작성한 프로젝트 기획서를 Claude Code 작업 지시서로 정리해 개발한 실전 업무 도구입니다.
         모든 저장소에 기획서 원문(CLAUDE.md), 개발일지(docs/개발일지.md), 테스트, README가 들어 있고, <b>테스트는 PR 마다 GitHub Actions 가 자동으로 돌립니다.</b></p>
       <div class="cards">
@@ -99,8 +99,16 @@
           <div class="tags"><span class="tag">업무 워크플로</span><span class="tag">파일명 해독</span><span class="tag">권한 승인</span><span class="tag">산출물 보관·버전</span><span class="tag">Supabase RLS</span></div>
           <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project12/" target="_new" rel="noopener noreferrer">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project12" target="_new" rel="noopener noreferrer">저장소</a></div>
         </div>
+        <div class="card">
+          <div class="no">HD-PROJECT17 · <span class="owner">류제찬</span></div>
+          <h3>사양서 검색 — 부품 Spec. Sheet</h3>
+          <p class="lead">메인 서버 폴더에 쌓인 사양서 엑셀을 색인해 두고, 품번이나 <b>“호스 검색해줘”</b> 같은 말로 찾아 사양서를 화면에 그대로 펴 줍니다. 없으면 등록을 요청하라고 안내합니다.</p>
+          <ul class="points"><li>후보가 여럿이면 <b>골라 주지 않고 되묻습니다</b> — 사양서를 잘못 보고 발주하면 그건 돈입니다</li><li>칸을 위치가 아니라 <b>라벨로</b> 찾습니다 — 실제 10건이 시트 이름 7종에 품번 위치도 제각각이었습니다</li><li><b>못 찾은 검색어가 등록해야 할 사양서 목록</b>이 됩니다. 많이 찾은 것이 위로 옵니다</li></ul>
+          <div class="tags"><span class="tag">사내 문서 검색</span><span class="tag">엑셀 색인</span><span class="tag">되묻는 검색</span><span class="tag">개인정보 마스킹</span><span class="tag">Supabase RLS</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project17/" target="_new" rel="noopener noreferrer">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project17" target="_new" rel="noopener noreferrer">저장소</a></div>
+        </div>
       </div>
-      <div class="note"><b>12개 프로젝트 모두 각자 클론해 바로 쓸 수 있게 정비했습니다.</b>
+      <div class="note"><b>13개 프로젝트 모두 각자 클론해 바로 쓸 수 있게 정비했습니다.</b>
         저장소마다 <code>supabase/schema.sql</code>(테이블·RLS·판정 함수)과
         <code>scripts/sqltest/run.sh</code>(임시 PostgreSQL 을 띄워 실제로 적용해 보는 검증)이 들어 있습니다.
         본인 Supabase 프로젝트에 SQL 을 붙여 넣기만 하면 됩니다 — 테이블 이름에 접두사를 붙이지 않았습니다.

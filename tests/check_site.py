@@ -165,11 +165,28 @@ project_cards = cards(projects)
 eq(stat(home, '실습 저장소'), str(lab_cards), '홈 통계의 실습 저장소 수 == 실습 카드 수')
 eq(stat(home, '수강생 프로젝트'), str(project_cards), '홈 통계의 프로젝트 수 == 프로젝트 카드 수')
 
-# 칩의 범위(hd-project01 ~ hd-projectNN)도 카드 수와 맞아야 한다
-m = re.search(r'hd-project01 ~ hd-project(\d+)', projects)
-ok(m is not None, '프로젝트 칩에 범위가 적혀 있다')
+# 칩에 적힌 번호가 실제 카드와 정확히 같아야 한다.
+# 번호가 이어지지 않으므로(01~12 다음이 17) '마지막 번호 == 카드 수' 는 더 이상
+# 성립하지 않는다. 그 가정으로 두면 카드를 더할 때 조용히 어긋난다.
+def numbers_in(label):
+    """'hd-project01~12 · 17' → {1..12, 17}"""
+    out = set()
+    label = label.replace('hd-project', '')
+    for part in re.split(r'[·,]', label):
+        part = part.strip()
+        m2 = re.match(r'^(\d+)\s*~\s*(\d+)$', part)
+        if m2:
+            out.update(range(int(m2.group(1)), int(m2.group(2)) + 1))
+        elif re.match(r'^\d+$', part):
+            out.add(int(part))
+    return out
+
+m = re.search(r'<span class="chip[^"]*">([^<]*hd-project[^<]*)</span>', projects)
+ok(m is not None, '프로젝트 칩에 번호가 적혀 있다')
 if m:
-    eq(int(m.group(1)), project_cards, '칩의 마지막 번호 == 프로젝트 카드 수')
+    chip = numbers_in(m.group(1))
+    on_cards = set(int(n) for n in re.findall(r'HD-PROJECT(\d+)', projects))
+    eq(sorted(chip), sorted(on_cards), '칩의 번호 == 카드의 번호')
 
 # 본문 곳곳의 "N종" 표기도 같아야 한다
 for rel, html in (('index.html', home), ('projects.html', projects)):
@@ -189,9 +206,15 @@ SOURCES = ['build.py'] + ['_parts/' + n for n in sorted(os.listdir(os.path.join(
 for rel in SOURCES:
     if not rel.endswith(('.py', '.html')):
         continue
-    # 두 표기가 다 쓰인다: "hd-project01 ~ hd-project12" 와 "hd-project01~12"
-    for n in set(re.findall(r'hd-project0?1\s*~\s*(?:hd-project)?(\d+)', read(rel))):
-        eq(int(n), project_cards, '%s — "hd-project01~%s" 범위가 카드 수와 맞는다' % (rel, n))
+    # 소스에 적힌 번호 목록도 카드와 같아야 한다.
+    # 표기가 두 가지다: "hd-project01 ~ hd-project12" 와 "hd-project01~12 · 17"
+    # '~' 가 들어간 범위 표기만 본다. 개별 링크(hd-project07)는 5번 검사가 따로 본다.
+    for m3 in re.finditer(r'hd-project\d+\s*~\s*(?:hd-project)?[\d\s·,]+', read(rel)):
+        got = numbers_in(m3.group(0))
+        if not got:
+            continue
+        eq(sorted(got), sorted(on_cards),
+           '%s — "%s" 의 번호가 카드와 맞는다' % (rel, m3.group(0).strip()))
 
 # 읽어만 두고 쓰지 않는 조각이 남지 않게 — 위 상황을 만든 원인 자체를 막는다
 build_src = read('build.py')
@@ -228,8 +251,11 @@ for body in CARD.findall(projects):
            'HD-PROJECT%s — 데모·저장소 링크가 같은 번호를 가리킨다' % no)
 
 eq(len(seen), len(set(seen)), '프로젝트 번호가 중복되지 않는다')
-eq(seen, ['%02d' % i for i in range(1, len(seen) + 1)],
-   '프로젝트 번호가 01부터 빠짐없이 이어진다')
+# 번호는 기획서 번호를 따른다. 17번 기획서로 만든 프로젝트는 hd-project17 이다.
+# 그래서 '01부터 빠짐없이 이어진다'는 성립하지 않는다 — 01~12 다음이 17 이다.
+# 순서(오름차순)만 지키면 된다. 사람이 목록을 훑을 때 번호가 왔다갔다 하지 않게.
+eq(seen, sorted(seen), '프로젝트 번호가 오름차순이다')
+ok(all(re.match(r'^\d{2}$', n) for n in seen), '프로젝트 번호가 두 자리다', str(seen))
 eq(len(seen), project_cards, '번호가 붙은 카드 수 == 전체 카드 수')
 
 
