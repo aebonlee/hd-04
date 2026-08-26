@@ -180,6 +180,27 @@ m = re.search(r'<b>(\d+)개 프로젝트 모두', projects)
 if m:
     eq(int(m.group(1)), project_cards, '하단 안내의 "N개 프로젝트" 가 카드 수와 맞는다')
 
+# 구운 페이지만 보면 놓친다. 소스(_parts/, build.py)에 적힌 범위도 카드 수와 맞아야 한다.
+# 실제로 _parts/hero.html 이 hd-project01~11 · "11" 을 든 채 남아 있었다. build.py 가
+# 그 조각을 읽어만 두고 쓰지 않아(HERO_HOME) 구운 페이지는 12 였고, 검사도 통과했다.
+# build.py 는 "내용은 _parts/ 를 고칠 것"이라고 적어 두었으므로, 그 말을 믿고 고친
+# 사람은 아무 일도 일어나지 않는 파일을 고치게 된다.
+SOURCES = ['build.py'] + ['_parts/' + n for n in sorted(os.listdir(os.path.join(ROOT, '_parts')))]
+for rel in SOURCES:
+    if not rel.endswith(('.py', '.html')):
+        continue
+    # 두 표기가 다 쓰인다: "hd-project01 ~ hd-project12" 와 "hd-project01~12"
+    for n in set(re.findall(r'hd-project0?1\s*~\s*(?:hd-project)?(\d+)', read(rel))):
+        eq(int(n), project_cards, '%s — "hd-project01~%s" 범위가 카드 수와 맞는다' % (rel, n))
+
+# 읽어만 두고 쓰지 않는 조각이 남지 않게 — 위 상황을 만든 원인 자체를 막는다
+build_src = read('build.py')
+for name in re.findall(r"P\('([a-z_]+)'\)", build_src):
+    var = re.search(r"(\w+)\s*=\s*P\('%s'\)" % name, build_src)
+    if var:
+        ok(len(re.findall(r'\b%s\b' % var.group(1), build_src)) > 1,
+           'build.py — _parts/%s.html 을 읽었으면 실제로 쓴다' % name)
+
 
 # ─────────────────────────────────────────── 5. 프로젝트 카드
 group('5. 프로젝트 카드 — 번호와 링크가 서로 맞는가')

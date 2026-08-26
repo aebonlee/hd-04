@@ -13,7 +13,6 @@ P = lambda n: open(os.path.join(HERE, '_parts', n + '.html'), encoding='utf-8').
 
 HEAD      = P('head')
 BODY_OPEN = P('body_open')
-HERO_HOME = P('hero')
 FOOT      = P('foot')
 
 MENU = [
