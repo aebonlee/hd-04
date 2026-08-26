@@ -6,6 +6,7 @@ hd-04 페이지 생성기 — python3 build.py
 페이지 HTML 을 손으로 고치면 다시 구울 때 날아간다. 내용은 _parts/ 를 고칠 것.
 """
 import os, re
+from metablock import preserve
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 P = lambda n: open(os.path.join(HERE, '_parts', n + '.html'), encoding='utf-8').read()
@@ -82,6 +83,9 @@ def page(path, title, desc, active, hero_html, body, root=''):
 """
     full = os.path.join(HERE, path)
     os.makedirs(os.path.dirname(full), exist_ok=True)
+    # 저장소 밖 스크립트가 넣어 둔 HD:META 블록을 되돌려 넣는다 (metablock.py 주석 참조).
+    # 이걸 안 하면 다시 구울 때마다 파비콘·OG 메타가 통째로 사라진다.
+    html = preserve(full, html)
     open(full, 'w', encoding='utf-8').write(html)
     print(f'  {path}: {len(html):,}자')
 
