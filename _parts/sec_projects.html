@@ -1,5 +1,5 @@
     <section>
-      <h2 id="projects">수강생 프로젝트 <span class="chip blue">hd-project01~12 · 17</span></h2>
+      <h2 id="projects">수강생 프로젝트 <span class="chip blue">hd-project01~14 · 17</span></h2>
       <p class="sec-sub">수강생이 직접 작성한 프로젝트 기획서를 Claude Code 작업 지시서로 정리해 개발한 실전 업무 도구입니다.
         모든 저장소에 기획서 원문(CLAUDE.md), 개발일지(docs/개발일지.md), 테스트, README가 들어 있고, <b>테스트는 PR 마다 GitHub Actions 가 자동으로 돌립니다.</b></p>
       <div class="cards">
@@ -100,6 +100,22 @@
           <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project12/" target="_new" rel="noopener noreferrer">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project12" target="_new" rel="noopener noreferrer">저장소</a></div>
         </div>
         <div class="card">
+          <div class="no">HD-PROJECT13 · <span class="owner">안상욱</span></div>
+          <h3>J1939 CAN 사양 정리 자동화</h3>
+          <p class="lead">전장품마다 따로 오는 CAN 사양서(Word·PDF·Excel)를 올리면 <b>ID·PGN·CAN Channel·Source Address·Period</b> 를 뽑아 엑셀 한 장으로 모읍니다.</p>
+          <ul class="points"><li>ID 만 있으면 <b>PGN·SA·우선순위를 계산해</b> 채우고, PGN 만 있으면 <b>ID 를 지어내지 않습니다</b> — 우선순위를 모르기 때문입니다</li><li>계산으로 채운 값에는 <b>「계산」 표시</b>가 붙습니다. 문서에 적혀 있던 값과 신뢰도가 다릅니다</li><li>ID 와 PGN 이 어긋나면 <b>양쪽 값을 다 적어 알립니다.</b> 어느 쪽이 맞는지는 원본을 봐야 압니다</li></ul>
+          <div class="tags"><span class="tag">CAN · J1939</span><span class="tag">Word·PDF·Excel 파싱</span><span class="tag">비트 계산</span><span class="tag">검토필요 표시</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project13/" target="_new" rel="noopener noreferrer">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project13" target="_new" rel="noopener noreferrer">저장소</a></div>
+        </div>
+        <div class="card">
+          <div class="no">HD-PROJECT14 · <span class="owner">임나연</span></div>
+          <h3>신규 딜러 Access Portal 등록 자동화</h3>
+          <p class="lead">딜러가 새로 생길 때마다 반복하던 <b>PROFILE 등록 + 권한 설정</b>을 줄입니다. 엑셀을 올리면 줄마다 검증하고, 국가로 권한 다섯 가지를 정합니다.</p>
+          <ul class="points"><li><b>로그인과 최종 저장은 사람이</b> 합니다 — 로그인 자동화는 사내 정책상 금지, 저장은 기획서의 검토 요구 그대로입니다</li><li>매핑에 없는 국가는 <b>기본 권한을 주지 않고 막아 세웁니다.</b> 조용히 주면 잘못 나가도 아무도 모릅니다</li><li>같은 이메일을 <b>대소문자 달라도 중복으로</b> 잡습니다. 놓치면 포털에 중복 계정이 생깁니다</li></ul>
+          <div class="tags"><span class="tag">엑셀 검증</span><span class="tag">국가별 권한</span><span class="tag">Playwright 입력</span><span class="tag">사람이 최종 저장</span></div>
+          <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project14/" target="_new" rel="noopener noreferrer">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project14" target="_new" rel="noopener noreferrer">저장소</a></div>
+        </div>
+        <div class="card">
           <div class="no">HD-PROJECT17 · <span class="owner">류제찬</span></div>
           <h3>사양서 검색 — 부품 Spec. Sheet</h3>
           <p class="lead">메인 서버 폴더에 쌓인 사양서 엑셀을 색인해 두고, 품번이나 <b>“호스 검색해줘”</b> 같은 말로 찾아 사양서를 화면에 그대로 펴 줍니다. 품명이 영문이어도 <b>앵글·ㄱ형강</b> 같은 현장 용어로 찾힙니다.</p>
@@ -108,10 +124,11 @@
           <div class="links"><a class="btn blue" href="https://aebonlee.github.io/hd-project17/" target="_new" rel="noopener noreferrer">데모 열기</a><a class="btn" href="https://github.com/aebonlee/hd-project17" target="_new" rel="noopener noreferrer">저장소</a></div>
         </div>
       </div>
-      <div class="note"><b>13개 프로젝트 모두 각자 클론해 바로 쓸 수 있게 정비했습니다.</b>
-        저장소마다 <code>supabase/schema.sql</code>(테이블·RLS·판정 함수)과
+      <div class="note"><b>15개 프로젝트 모두 각자 클론해 바로 쓸 수 있게 정비했습니다.</b>
+        여럿이 같은 자료를 봐야 하는 <b>13개</b> 저장소에는 <code>supabase/schema.sql</code>(테이블·RLS·판정 함수)과
         <code>scripts/sqltest/run.sh</code>(임시 PostgreSQL 을 띄워 실제로 적용해 보는 검증)이 들어 있습니다.
         본인 Supabase 프로젝트에 SQL 을 붙여 넣기만 하면 됩니다 — 테이블 이름에 접두사를 붙이지 않았습니다.
+        <br>HD-PROJECT13·14 는 파일을 브라우저와 내 PC 에서만 다루므로 데이터베이스가 필요 없습니다.
         <br>각 프로젝트는 실제 회사 데이터 없이 기획서 스키마 기반 <b>샘플 데이터</b>로 전체 흐름이 동작하도록 만들어졌습니다.
         사내 시스템(SAP·MES·Outlook 등) 연동 지점은 어댑터로 분리되어 있으며, 실적용 방법은 각 저장소의 README와 개발일지에 정리되어 있습니다.</div>
     </section>
