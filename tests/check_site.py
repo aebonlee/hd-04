@@ -188,10 +188,25 @@ if m:
     on_cards = set(int(n) for n in re.findall(r'HD-PROJECT(\d+)', projects))
     eq(sorted(chip), sorted(on_cards), '칩의 번호 == 카드의 번호')
 
-# 본문 곳곳의 "N종" 표기도 같아야 한다
-for rel, html in (('index.html', home), ('projects.html', projects)):
-    for n in set(re.findall(r'실전 업무 도구 (\d+)종', html)):
-        eq(int(n), project_cards, '%s — "실전 업무 도구 %s종" 표기가 카드 수와 맞는다' % (rel, n))
+# 본문 곳곳의 "N종" 표기도 같아야 한다.
+#
+# 예전에는 index/projects 의 "실전 업무 도구 N종" 만 봤다. 그래서
+# _parts/sec_curriculum.html 의 "실전 프로젝트 10종을 완성합니다" 가
+# 프로젝트가 13개가 되도록 10 인 채로 남아 있었다 — 구운 페이지에도
+# 그대로 나가고 있었는데 아무 검사도 걸리지 않았다.
+# 이제 소스와 구운 페이지를 **전부** 훑는다.
+#
+# 다만 모든 "N종" 을 세면 안 된다. 카드 본문에는 프로젝트 수가 아닌
+# "시트 이름 7종"(17번), "반복 업무 자동화 4종"(02번 제목) 이 있다.
+# 그래서 '실전/수강생' 이 앞에 붙은 것만 본다.
+SOURCES = [r for r in ['build.py'] + ['_parts/' + n for n in
+           sorted(os.listdir(os.path.join(ROOT, '_parts')))]
+           if r.endswith(('.py', '.html'))]
+COUNT_PHRASE = re.compile(r'(?:실전|수강생)\s*(?:프로젝트|업무\s*도구)\s*(\d+)\s*종')
+for rel in PAGES + SOURCES:
+    for n in set(COUNT_PHRASE.findall(read(rel))):
+        eq(int(n), project_cards,
+           '%s — "…%s종" 표기가 카드 수와 맞는다' % (rel, n))
 
 m = re.search(r'<b>(\d+)개 프로젝트 모두', projects)
 if m:
@@ -202,7 +217,6 @@ if m:
 # 그 조각을 읽어만 두고 쓰지 않아(HERO_HOME) 구운 페이지는 12 였고, 검사도 통과했다.
 # build.py 는 "내용은 _parts/ 를 고칠 것"이라고 적어 두었으므로, 그 말을 믿고 고친
 # 사람은 아무 일도 일어나지 않는 파일을 고치게 된다.
-SOURCES = ['build.py'] + ['_parts/' + n for n in sorted(os.listdir(os.path.join(ROOT, '_parts')))]
 for rel in SOURCES:
     if not rel.endswith(('.py', '.html')):
         continue
