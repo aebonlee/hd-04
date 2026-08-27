@@ -94,7 +94,7 @@ HEAD = re.sub(r'<meta name="description"[^>]*>\s*', '', HEAD)
 
 STATS = '''    <div class="stats">
       <div class="stat"><b>7</b><span>실습 저장소</span></div>
-      <div class="stat"><b>15</b><span>수강생 프로젝트</span></div>
+      <div class="stat"><b>16</b><span>수강생 프로젝트</span></div>
       <div class="stat"><b>4+2</b><span>실습 4일 + 프로젝트 2일</span></div>
       <div class="stat"><b>100%</b><span>GitHub Pages 배포</span></div>
     </div>
@@ -117,7 +117,7 @@ HOME_BODY = P('sec_curriculum') + '''
           <div class="no">각자 기획해 만든 것</div>
           <h3>프로젝트 소개</h3>
           <p class="lead">수강생이 직접 쓴 기획서를 작업 지시서로 옮겨 개발한
-            실전 업무 도구 15종입니다. 각자의 실제 업무 문제를 풀었습니다.</p>
+            실전 업무 도구 16종입니다. 각자의 실제 업무 문제를 풀었습니다.</p>
           <div class="links"><a class="btn blue" href="projects.html">프로젝트 보기</a></div>
         </div>
       </div>
@@ -131,7 +131,7 @@ page('index.html',
      hero('HD 생성형 AI 업무자동화 전문가과정 · 1차수',
           '실습 &amp; 프로젝트 저장소 총정리',
           '현대건설 생성형 AI 업무자동화 전문가과정에서 Claude Code로 진행한 4일간의 실습 저장소(hd-01~08)와,<br>'
-          '수강생 기획서를 기반으로 개발한 실전 프로젝트(hd-project01~14 · 17)를 한 페이지에 정리했습니다.',
+          '수강생 기획서를 기반으로 개발한 실전 프로젝트(hd-project01~15 · 17)를 한 페이지에 정리했습니다.',
           STATS),
      HOME_BODY)
 
@@ -148,11 +148,11 @@ page('labs.html',
 # ── 프로젝트 소개 ─────────────────────────────────────────────────────
 page('projects.html',
      '프로젝트 소개 — HD 생성형 AI 업무자동화 전문가과정',
-     '수강생이 직접 기획해 개발한 실전 업무 도구 15종',
+     '수강생이 직접 기획해 개발한 실전 업무 도구 16종',
      'projects',
      hero('각자 기획해 만든 것', '수강생 프로젝트',
           '수강생이 직접 쓴 프로젝트 기획서를 Claude Code 작업 지시서로 옮겨 개발한 '
-          '실전 업무 도구 15종입니다. 각자의 실제 업무 문제를 풀었습니다.'),
+          '실전 업무 도구 16종입니다. 각자의 실제 업무 문제를 풀었습니다.'),
      P('sec_projects'))
 
 print('\n안내 페이지 메뉴 조각도 갱신')
