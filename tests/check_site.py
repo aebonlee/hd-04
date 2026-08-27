@@ -24,6 +24,12 @@ import sys
 import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# build.py 의 전환 스위치를 그대로 읽는다. 여기에 True/False 를 베껴 적으면
+# 둘이 어긋나는 순간 검사가 거짓말을 한다.
+sys.path.insert(0, ROOT)
+import build as _build            # noqa: E402
+PAGES_LIVE = _build.PAGES_LIVE
 SITE = 'https://aebonlee.github.io/hd-04/'
 
 TOP_PAGES = ['index.html', 'labs.html', 'projects.html']
@@ -199,9 +205,11 @@ if m:
 # 다만 모든 "N종" 을 세면 안 된다. 카드 본문에는 프로젝트 수가 아닌
 # "시트 이름 7종"(17번), "반복 업무 자동화 4종"(02번 제목) 이 있다.
 # 그래서 '실전/수강생' 이 앞에 붙은 것만 본다.
-SOURCES = [r for r in ['build.py'] + ['_parts/' + n for n in
+# README.md 도 넣는다. 실제로 "hd-project01 ~ hd-project12 (12종)" 이 카드가
+# 열일곱 장이 되는 동안 그대로 남아 있었다 — 소스만 보던 검사가 못 봤다.
+SOURCES = [r for r in ['build.py', 'README.md'] + ['_parts/' + n for n in
            sorted(os.listdir(os.path.join(ROOT, '_parts')))]
-           if r.endswith(('.py', '.html'))]
+           if r.endswith(('.py', '.html', '.md'))]
 COUNT_PHRASE = re.compile(r'(?:실전|수강생)\s*(?:프로젝트|업무\s*도구)\s*(\d+)\s*종')
 for rel in PAGES + SOURCES:
     for n in set(COUNT_PHRASE.findall(read(rel))):
@@ -218,7 +226,7 @@ if m:
 # build.py 는 "내용은 _parts/ 를 고칠 것"이라고 적어 두었으므로, 그 말을 믿고 고친
 # 사람은 아무 일도 일어나지 않는 파일을 고치게 된다.
 for rel in SOURCES:
-    if not rel.endswith(('.py', '.html')):
+    if not rel.endswith(('.py', '.html', '.md')):
         continue
     # 소스에 적힌 번호 목록도 카드와 같아야 한다.
     # 표기가 두 가지다: "hd-project01 ~ hd-project12" 와 "hd-project01~12 · 17"
@@ -274,7 +282,11 @@ for body in CARD.findall(projects):
 
     demo = re.search(r'href="https://aebonlee\.github\.io/hd-project(\d+)/"', body)
     repo = re.search(r'href="https://github\.com/aebonlee/hd-project(\d+)"', body)
-    ok(demo is not None, 'HD-PROJECT%s — 데모 링크가 있다' % no)
+    # 저장소를 비공개로 돌리면 Pages 가 서지 않으므로 데모 단추가 없는 것이 맞다.
+    if PAGES_LIVE:
+        ok(demo is not None, 'HD-PROJECT%s — 데모 링크가 있다' % no)
+    else:
+        ok(demo is None, 'HD-PROJECT%s — 비공개 전환 뒤에는 데모 링크가 없다' % no)
     ok(repo is not None, 'HD-PROJECT%s — 저장소 링크가 있다' % no)
     if demo and repo:
         # 카드를 복사해 만들면서 번호 하나를 안 고치는 것이 가장 흔한 실수다
@@ -288,6 +300,69 @@ eq(len(seen), len(set(seen)), '프로젝트 번호가 중복되지 않는다')
 eq(seen, sorted(seen), '프로젝트 번호가 오름차순이다')
 ok(all(re.match(r'^\d{2}$', n) for n in seen), '프로젝트 번호가 두 자리다', str(seen))
 eq(len(seen), project_cards, '번호가 붙은 카드 수 == 전체 카드 수')
+
+
+# ─────────────────────────────────────────── 5-1. 전환 스위치
+#
+# build.py 의 PAGES_LIVE 를 False 로 돌리면 저장소를 비공개로 바꾼 뒤의 판이
+# 나온다. **그날이 오기 전에 여기서 실제로 구워 본다.**
+#
+# 아무도 눌러 보지 않은 스위치는 정작 필요한 날 안 돈다. 게다가 _no_pages()
+# 는 조각의 표기에 기대는 코드라, 카드 표기가 바뀌면 조용히 아무 일도 안
+# 하게 될 수 있다 — 그러면 "고쳤다"고 믿은 채 죽은 링크가 그대로 나간다.
+group('5-1. 전환 스위치 — 비공개로 돌린 판이 실제로 구워지는가')
+
+tmp = tempfile.mkdtemp(prefix='hd04-off-')
+try:
+    work = os.path.join(tmp, 'site')
+    shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns('.git', '__pycache__'))
+
+    gen = os.path.join(work, 'build.py')
+    src = io.open(gen, encoding='utf-8').read()
+    flipped = src.replace('PAGES_LIVE = True', 'PAGES_LIVE = False', 1)
+    ok(flipped != src, 'build.py 에 PAGES_LIVE 스위치가 있다')
+    io.open(gen, 'w', encoding='utf-8').write(flipped)
+
+    r = subprocess.run([sys.executable, 'build.py'], cwd=work,
+                       capture_output=True, text=True)
+    ok(r.returncode == 0, '스위치를 끄고도 오류 없이 구워진다', r.stderr.strip()[-500:])
+
+    if r.returncode == 0:
+        off_projects = io.open(os.path.join(work, 'projects.html'), encoding='utf-8').read()
+        off_labs = io.open(os.path.join(work, 'labs.html'), encoding='utf-8').read()
+        off_index = io.open(os.path.join(work, 'index.html'), encoding='utf-8').read()
+
+        # ① 카드의 github.io 단추가 전부 빠졌는가
+        for rel, html in (('projects.html', off_projects), ('labs.html', off_labs)):
+            left = re.findall(r'<a class="btn[^"]*" href="https://aebonlee\.github\.io/[^"]*"',
+                              html)
+            eq(left, [], '%s — 데모/페이지 단추가 하나도 남지 않는다' % rel)
+
+        # ② 저장소 단추는 남아 있어야 한다. 권한이 있으면 열리기 때문이다.
+        eq(len(re.findall(r'>저장소</a>', off_projects)), project_cards,
+           'projects.html — 저장소 단추는 카드마다 그대로 있다')
+        ok(len(re.findall(r'>저장소</a>', off_labs)) > 0,
+           'labs.html — 저장소 단추는 그대로 있다')
+
+        # ③ 왜 없어졌는지 적혀 있는가. 안 적으면 "링크가 빠진 것"으로 보인다.
+        for rel, html in (('projects.html', off_projects), ('labs.html', off_labs)):
+            ok('저장소를 비공개로 돌리면서' in html,
+               '%s — 단추가 없어진 이유를 적는다' % rel)
+
+        # ④ 이제 틀린 안내가 된 문장이 걷혔는가.
+        #    private 이면 Settings → Pages 에서 켜도 안 된다.
+        ok('Settings → Pages' not in off_labs,
+           'labs.html — "Pages 를 켜면 됩니다" 안내가 걷힌다')
+
+        # ⑤ 히어로 통계도 사실에 맞게 바뀌는가
+        ok('GitHub Pages 배포</span>' not in off_index,
+           'index.html — "100% GitHub Pages 배포" 가 사라진다')
+
+        # ⑥ 스위치를 껐다고 카드가 사라지면 안 된다
+        eq(len(re.findall(r'<div class="no">HD-PROJECT', off_projects)), project_cards,
+           'projects.html — 카드 수는 그대로다')
+finally:
+    shutil.rmtree(tmp, ignore_errors=True)
 
 
 # ─────────────────────────────────────────── 6. 메뉴
