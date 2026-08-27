@@ -8,8 +8,70 @@ hd-04 페이지 생성기 — python3 build.py
 import os, re
 from metablock import preserve
 
+# ─── 전환 스위치 ────────────────────────────────────────────────────
+#
+# 저장소를 전부 private 으로 돌리는 날 **이 한 줄만 False 로 바꾸고 다시 구우면**
+# 된다. 열여섯 장을 손으로 고칠 일이 없다.
+#
+# 왜 필요한가 — 무료 플랜에서는 private 저장소의 GitHub Pages 가 서비스되지
+# 않는다. 그래서 전환하는 순간 카드의 "데모 열기"·"페이지 열기" 24개가 전부
+# 죽는다. 링크가 남아 있으면 누르는 사람은 그것이 고장인지 의도인지 모른다.
+#
+# False 로 두면 이렇게 바뀐다.
+#   · github.io 를 가리키는 단추를 **모두 뺀다** (저장소 단추는 남긴다)
+#   · 두 섹션 머리에 왜 없어졌는지 적는다
+#   · 히어로 통계의 "100% GitHub Pages 배포" 를 사실에 맞게 바꾼다
+#   · 실습 섹션의 "Settings → Pages 에서 켜면 됩니다" 안내를 걷어낸다
+#     (private 이면 켜도 안 된다 — 그대로 두면 틀린 안내가 된다)
+#
+# 저장소 단추는 남긴다. private 이어도 **권한이 있는 사람에게는 열리기** 때문이다.
+# 대신 안내에 권한이 필요하다고 적는다.
+PAGES_LIVE = True
+
 HERE = os.path.dirname(os.path.abspath(__file__))
-P = lambda n: open(os.path.join(HERE, '_parts', n + '.html'), encoding='utf-8').read()
+def _no_pages(html, name):
+    """PAGES_LIVE 가 False 일 때 조각을 고쳐 준다.
+
+    조각 파일(_parts/) 자체는 건드리지 않는다. **구울 때만** 바꾼다.
+    그래야 스위치를 다시 True 로 돌리면 원래대로 돌아온다.
+
+    개수를 세서 하나도 못 바꿨으면 소리 내어 죽는다. 조각의 표기가 바뀌면
+    이 함수가 조용히 아무 일도 안 하게 되는데, 그러면 전환하는 날
+    "고쳤다"고 믿은 채 죽은 링크가 그대로 나간다.
+    """
+    if name not in ('sec_labs', 'sec_projects'):
+        return html
+
+    # ① github.io 를 가리키는 단추를 뺀다 ("데모 열기" · "페이지 열기")
+    html, n = re.subn(
+        r'<a class="btn[^"]*" href="https://aebonlee\.github\.io/[^"]*"[^>]*>[^<]*</a>',
+        '', html)
+    assert n > 0, '%s: 뺄 github.io 단추를 못 찾았다' % name
+
+    # ② 왜 없어졌는지 섹션 머리에 적는다. 없으면 "링크가 빠진 것"으로 보인다.
+    note = ('\n      <div class="note"><b>저장소를 비공개로 돌리면서 '
+            '"%s" 단추를 뺐습니다.</b> 무료 플랜에서는 비공개 저장소의 '
+            'GitHub Pages 가 서비스되지 않아 주소가 열리지 않습니다. '
+            '<b>저장소</b> 단추는 그대로 두었습니다 — 권한이 있는 계정으로 '
+            '로그인하면 열립니다. 각자 클론해 둔 사본은 그대로 쓰실 수 있습니다.</div>'
+            % ('페이지 열기' if name == 'sec_labs' else '데모 열기'))
+    html, n = re.subn(r'(</h2>)', r'\1' + note.replace('\\', '\\\\'), html, count=1)
+    assert n == 1, '%s: 안내를 넣을 </h2> 를 못 찾았다' % name
+
+    # ③ 실습 섹션의 "Settings → Pages 에서 켜면 됩니다" 는 이제 틀린 안내다.
+    #    private 이면 켜도 안 된다.
+    if name == 'sec_labs':
+        stale = ('<div class="note">실습 저장소의 "페이지 열기"는 해당 저장소의 '
+                 'GitHub Pages 설정이 켜져 있을 때 동작합니다.')
+        assert stale in html, 'sec_labs: 걷어낼 옛 안내를 못 찾았다'
+        html = re.sub(re.escape(stale) + r'.*?</div>', '', html, count=1, flags=re.S)
+
+    return html
+
+
+def P(n):
+    html = open(os.path.join(HERE, '_parts', n + '.html'), encoding='utf-8').read()
+    return html if PAGES_LIVE else _no_pages(html, n)
 
 HEAD      = P('head')
 BODY_OPEN = P('body_open')
@@ -92,11 +154,17 @@ def page(path, title, desc, active, hero_html, body, root=''):
 HEAD = re.sub(r'<title>.*?</title>\s*', '', HEAD, flags=re.S)
 HEAD = re.sub(r'<meta name="description"[^>]*>\s*', '', HEAD)
 
+# 마지막 타일만 스위치를 탄다. 비공개로 돌리면 Pages 가 서지 않으므로
+# "100% GitHub Pages 배포" 가 거짓이 된다.
+_DEPLOY_STAT = ('      <div class="stat"><b>100%</b><span>GitHub Pages 배포</span></div>'
+                if PAGES_LIVE else
+                '      <div class="stat"><b>100%</b><span>클론해서 바로 실행</span></div>')
+
 STATS = '''    <div class="stats">
       <div class="stat"><b>7</b><span>실습 저장소</span></div>
       <div class="stat"><b>17</b><span>수강생 프로젝트</span></div>
       <div class="stat"><b>4+2</b><span>실습 4일 + 프로젝트 2일</span></div>
-      <div class="stat"><b>100%</b><span>GitHub Pages 배포</span></div>
+''' + _DEPLOY_STAT + '''
     </div>
 '''
 
