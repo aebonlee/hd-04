@@ -287,11 +287,11 @@ for body in CARD.findall(projects):
         ok(demo is not None, 'HD-PROJECT%s — 데모 링크가 있다' % no)
     else:
         ok(demo is None, 'HD-PROJECT%s — 비공개 전환 뒤에는 데모 링크가 없다' % no)
-    ok(repo is not None, 'HD-PROJECT%s — 저장소 링크가 있다' % no)
-    if demo and repo:
+    # 리포는 2026-10-26 비공개 전환 — 저장소 링크는 방문자에게 404 라 두지 않는다
+    ok(repo is None, 'HD-PROJECT%s — 비공개 저장소 링크가 없다' % no)
+    if demo:
         # 카드를 복사해 만들면서 번호 하나를 안 고치는 것이 가장 흔한 실수다
-        eq((demo.group(1), repo.group(1)), (no, no),
-           'HD-PROJECT%s — 데모·저장소 링크가 같은 번호를 가리킨다' % no)
+        eq(demo.group(1), no, 'HD-PROJECT%s — 데모 링크가 같은 번호를 가리킨다' % no)
 
 eq(len(seen), len(set(seen)), '프로젝트 번호가 중복되지 않는다')
 # 번호는 기획서 번호를 따른다. 17번 기획서로 만든 프로젝트는 hd-project17 이다.
@@ -338,9 +338,10 @@ try:
                               html)
             eq(left, [], '%s — 데모/페이지 단추가 하나도 남지 않는다' % rel)
 
-        # ② 저장소 단추는 남아 있어야 한다. 권한이 있으면 열리기 때문이다.
-        eq(len(re.findall(r'>저장소</a>', off_projects)), project_cards,
-           'projects.html — 저장소 단추는 카드마다 그대로 있다')
+        # ② 실습(hd-01~08, 공개) 저장소 단추는 남는다. 프로젝트 카드의 저장소 단추는
+        #    2026-10-26 hd-project 비공개 전환 때 조각에서 이미 뺐다.
+        eq(len(re.findall(r'>저장소</a>', off_projects)), 0,
+           'projects.html — 비공개 프로젝트 저장소 단추가 없다')
         ok(len(re.findall(r'>저장소</a>', off_labs)) > 0,
            'labs.html — 저장소 단추는 그대로 있다')
 

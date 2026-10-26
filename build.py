@@ -26,6 +26,10 @@ from metablock import preserve
 #
 # 저장소 단추는 남긴다. private 이어도 **권한이 있는 사람에게는 열리기** 때문이다.
 # 대신 안내에 권한이 필요하다고 적는다.
+#
+# 2026-10-26 실제 전환 — hd-project 리포 전부를 private 으로 돌렸지만 유료 플랜이라
+# Pages 는 그대로 열린다(전수 200 확인). 그래서 스위치는 True 그대로 두고,
+# 방문자에게 404 인 프로젝트 저장소 단추만 조각(_parts/sec_projects.html)에서 뺐다.
 PAGES_LIVE = True
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -52,8 +56,7 @@ def _no_pages(html, name):
     note = ('\n      <div class="note"><b>저장소를 비공개로 돌리면서 '
             '"%s" 단추를 뺐습니다.</b> 무료 플랜에서는 비공개 저장소의 '
             'GitHub Pages 가 서비스되지 않아 주소가 열리지 않습니다. '
-            '<b>저장소</b> 단추는 그대로 두었습니다 — 권한이 있는 계정으로 '
-            '로그인하면 열립니다. 각자 클론해 둔 사본은 그대로 쓰실 수 있습니다.</div>'
+            '각자 클론해 둔 사본은 그대로 쓰실 수 있습니다.</div>'
             % ('페이지 열기' if name == 'sec_labs' else '데모 열기'))
     html, n = re.subn(r'(</h2>)', r'\1' + note.replace('\\', '\\\\'), html, count=1)
     assert n == 1, '%s: 안내를 넣을 </h2> 를 못 찾았다' % name
